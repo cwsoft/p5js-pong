@@ -32,9 +32,9 @@ class Ball {
 
     // If ball hits players paddle, re-bounce ball into opposite direction.
     if (
-      this.position.x - this.width / 2 < board.borderWidth + paddle.position.x + paddle.paddleWidth &&
-      this.position.y - this.width / 2 > paddle.position.y - paddle.paddleHeight / 2 &&
-      this.position.y - this.width / 2 < paddle.position.y + paddle.paddleHeight / 2
+      this.position.x - this.width / 2 < board.borderWidth + paddle.position.x + paddle.width &&
+      this.position.y - this.width / 2 > paddle.position.y - paddle.height / 2 &&
+      this.position.y - this.width / 2 < paddle.position.y + paddle.height / 2
     ) {
       this.setVelocity(createVector(-this.velocity.x, this.velocity.y), this.speed);
     }

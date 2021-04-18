@@ -1,8 +1,10 @@
-// Class to draw and move the player paddle on the canvas.
+// Class to draw and move paddles on the game board.
 class Paddle {
-  constructor() {
-    this.paddleHeight = 75;
-    this.paddleWidth = 10;
+  constructor(keyCodeUp = UP_ARROW, keyCodeDown = DOWN_ARROW) {
+    this.keyCodeUp = keyCodeUp;
+    this.keyCodeDown = keyCodeDown;
+    this.height = 75;
+    this.width = 10;
     this.speed = 8;
 
     // Place paddle in center of the user playground border.
@@ -15,31 +17,32 @@ class Paddle {
     this.velocity = direction.normalize().mult(this.speed);
   }
 
-  moveOnKeyDown() {
-    if (keyIsDown(UP_ARROW) || keyIsDown(DOWN_ARROW)) {
-      this.setVelocity(createVector(0, keyIsDown(UP_ARROW) ? -1 : 1));
+  // Move paddle on key down event.
+  move_OnKeyDown() {
+    if (keyIsDown(this.keyCodeUp) || keyIsDown(this.keyCodeDown)) {
+      this.setVelocity(createVector(0, keyIsDown(this.keyCodeUp) ? -1 : 1));
       this.update();
     }
   }
 
-  // Apply velocity vector on each frame.
+  // Update paddle position.
   update() {
     this.position.add(this.velocity);
     this.draw();
 
     // Stop paddle when hitting top or bottom playground borders.
     if (
-      this.position.y - this.paddleHeight / 2 <= board.borderWidth * 2 ||
-      this.position.y + this.paddleHeight / 2 + board.borderWidth * 2 > height
+      this.position.y - this.height / 2 <= board.borderWidth * 2 ||
+      this.position.y + this.height / 2 + board.borderWidth * 2 > height
     ) {
       this.setVelocity(createVector(0, 0));
     }
   }
 
+  // Draw updated paddle.
   draw() {
-    // Draw players paddle.
     fill(245, 175, 46);
     noStroke();
-    rect(this.position.x, this.position.y - this.paddleHeight / 2, this.paddleWidth, this.paddleHeight);
+    rect(this.position.x, this.position.y - this.height / 2, this.width, this.height);
   }
 }

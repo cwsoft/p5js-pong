@@ -1,4 +1,3 @@
-let canvasDiv = document.getElementById("canvas-container");
 let board, paddle, ball;
 let game = {
   started: false,
@@ -7,7 +6,8 @@ let game = {
 };
 
 function setup() {
-  let canvas = createCanvas(canvasDiv.clientWidth, canvasDiv.clientHeight);
+  let canvasContainer = document.getElementById("canvas-container");
+  let canvas = createCanvas(canvasContainer.clientWidth, canvasContainer.clientHeight);
   canvas.parent("canvas-container");
   board = new Board();
   paddle = new Paddle();
@@ -25,7 +25,7 @@ function draw() {
     fill(0, 255, 0, 200);
     textSize(30);
     let message = game.lost ? "Spiel verloren!" : "Spiel gewonnen!";
-    text(message + " [ENTER] started ein neues Spiel.", 50, 75);
+    text(message + " Drücke [ENTER] für ein neues Spiel.", 50, 75);
     game.started = false;
     return;
   }
@@ -33,7 +33,7 @@ function draw() {
   // Only move ball and paddle if game was started.
   if (game.started) {
     ball.update();
-    paddle.moveOnKeyDown();
+    paddle.move_OnKeyDown();
   } else {
     fill(0, 255, 0, 200);
     textSize(30);
