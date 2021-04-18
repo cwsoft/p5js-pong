@@ -1,8 +1,7 @@
-let board, paddle, ball;
+let board, player1, player2, ball;
 let game = {
   started: false,
-  won: false,
-  lost: false,
+  winner: 0,
 };
 
 function setup() {
@@ -10,22 +9,26 @@ function setup() {
   let canvas = createCanvas(canvasContainer.clientWidth, canvasContainer.clientHeight);
   canvas.parent("canvas-container");
   board = new Board();
-  paddle = new Paddle();
+  player1 = new Paddle(1, UP_ARROW, DOWN_ARROW);
+  player2 = new Paddle(2, 81, 65); // UP: Q, DOWN: A
   ball = new Ball();
 }
 
 function draw() {
   // Draw initial board, ball and paddle position.
   board.draw();
-  paddle.draw();
+  player1.draw();
+  player2.draw();
   ball.draw();
 
-  // Check if actual game was lost.
-  if (game.lost || game.won) {
+  // Check if game was one by a player.
+  if (game.winner > 0) {
     fill(0, 255, 0, 200);
     textSize(30);
-    let message = game.lost ? "Spiel verloren!" : "Spiel gewonnen!";
-    text(message + " Drücke [ENTER] für ein neues Spiel.", 50, 75);
+    let xPosition = game.winner == 1 ? width / 2 - 50 : width / 2 + 50;
+    let message = game.winner == 1 ? "Spieler 1 hat gewonnen." : "Spieler 2 hat gewonnen!";
+    textAlign(game.winner == 1 ? RIGHT : LEFT);
+    text(message + "\nDrücke [ENTER] für ein neues Spiel.", xPosition, 75);
     game.started = false;
     return;
   }
@@ -33,7 +36,8 @@ function draw() {
   // Only move ball and paddle if game was started.
   if (game.started) {
     ball.update();
-    paddle.move_OnKeyDown();
+    player1.move_OnKeyDown();
+    player2.move_OnKeyDown();
   } else {
     fill(0, 255, 0, 200);
     textSize(30);
@@ -45,10 +49,10 @@ function draw() {
 function keyPressed() {
   if (!game.started && keyCode === RETURN) {
     ball = new Ball();
-    paddle = new Paddle();
+    player1 = new Paddle(1, UP_ARROW, DOWN_ARROW);
+    player2 = new Paddle(2, 81, 65); // UP: Q, DOWN: A
     game.started = true;
-    game.lost = false;
-    game.won = false;
+    game.winner = 0;
     return;
   }
 }

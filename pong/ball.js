@@ -3,13 +3,14 @@ class Ball {
   constructor() {
     // Set defaults.
     this.width = 20;
-    this.speed = random(6, 12);
+    this.speed = random(5, 10);
 
     // Place ball in the canvas center.
     this.position = createVector(width / 2, height / 2);
 
-    // Kick ball in players field direction.
-    this.setVelocity(createVector(-1, random(-2, 2)), this.speed);
+    // Kick ball in random direction.
+    this.setVelocity(p5.Vector.fromAngle(radians(random(-60, 60))).mult(random(-10, 10)), this.speed);
+    this.setVelocity(createVector(1, 0.03), this.speed);
   }
 
   // Set ball velocity vector.
@@ -20,44 +21,27 @@ class Ball {
 
   // Add velocity vector to balls position vector per frame rate.
   update() {
-    // If ball hits computers goal, the game is won.
-    if (
-      this.position.x >= width - this.width - board.borderWidth * 2 &&
-      this.position.y > height / 2 - board.goalLength / 2 &&
-      this.position.y < height / 2 + board.goalLength / 2
-    ) {
-      game.won = true;
+    let normalVector;
+    if (this._bounceFromTopOrBottomFieldBorder()) {
+      // Re-bounce ball if it hits the top or bottom field border.
+      normalVector = createVector(0, -1);
+      this.setVelocity(this.velocity.reflect(normalVector), this.speed);
+    } else if (this._bounceFromPlayer1()) {
+      // Re-bounce ball from player 1 paddle.
+      normalVector = createVector(-1, 0);
+      this.setVelocity(this.velocity.reflect(normalVector), this.speed);
+    } else if (this._bounceFromPlayer2()) {
+      // Re-bounce ball from player 2 paddle.
+      normalVector = createVector(-1, 0);
+      this.setVelocity(this.velocity.reflect(normalVector), this.speed);
+    } else if (this.position.x + this.width / 2 >= width - board.borderWidth * 2) {
+      // Check if player 1 won the game.
+      game.winner = 1;
       return;
-    }
-
-    // If ball hits players paddle, re-bounce ball into opposite direction.
-    if (
-      this.position.x - this.width / 2 < board.borderWidth + paddle.position.x + paddle.width &&
-      this.position.y - this.width / 2 > paddle.position.y - paddle.height / 2 &&
-      this.position.y - this.width / 2 < paddle.position.y + paddle.height / 2
-    ) {
-      this.setVelocity(createVector(-this.velocity.x, this.velocity.y), this.speed);
-    }
-
-    // If ball hits players field border, game is lost.
-    if (this.position.x - this.width / 2 <= board.borderWidth) {
-      game.lost = true;
+    } else if (this.position.x - this.width / 2 <= board.borderWidth) {
+      // Check if player 2 won the game.
+      game.winner = 2;
       return;
-    }
-
-    // If ball hits field border other than players side, re-bounce ball into opposite direction.
-    if (
-      this.position.x - this.width / 2 <= board.borderWidth ||
-      this.position.x + this.width / 2 >= width - board.borderWidth * 2
-    ) {
-      this.setVelocity(createVector(-this.velocity.x, this.velocity.y), this.speed);
-    }
-
-    if (
-      this.position.y - this.width / 2 < board.borderWidth ||
-      this.position.y + this.width / 2 > height - board.borderWidth
-    ) {
-      this.setVelocity(createVector(this.velocity.x, -this.velocity.y), this.speed);
     }
 
     // Update position and draw ball.
@@ -69,6 +53,28 @@ class Ball {
   draw() {
     fill(50, 100, 200);
     ellipse(this.position.x, this.position.y, this.width);
-    rect(paddle.position.x + paddle.width * 2, paddle.position.y - paddle.height / 2 - 10, 1, 1);
+  }
+
+  _bounceFromTopOrBottomFieldBorder() {
+    return (
+      this.position.y - this.width / 2 <= board.borderWidth ||
+      this.position.y + this.width / 2 >= height - board.borderWidth * 2
+    );
+  }
+
+  _bounceFromPlayer1() {
+    return (
+      this.position.x - this.width / 2 <= board.borderWidth + player1.position.x + player1.width &&
+      this.position.y >= player1.position.y - player1.height / 2 &&
+      this.position.y <= player1.position.y + player1.height / 2
+    );
+  }
+
+  _bounceFromPlayer2() {
+    return (
+      this.position.x + this.width / 2 >= width - board.borderWidth * 2 &&
+      this.position.y >= player2.position.y - player2.height / 2 &&
+      this.position.y <= player2.position.y + player2.height / 2
+    );
   }
 }

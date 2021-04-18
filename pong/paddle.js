@@ -1,14 +1,16 @@
 // Class to draw and move paddles on the game board.
 class Paddle {
-  constructor(keyCodeUp = UP_ARROW, keyCodeDown = DOWN_ARROW) {
+  constructor(player, keyCodeUp, keyCodeDown) {
+    this.player = player;
     this.keyCodeUp = keyCodeUp;
     this.keyCodeDown = keyCodeDown;
     this.height = 75;
     this.width = 10;
     this.speed = 8;
 
-    // Place paddle in center of the user playground border.
-    this.position = createVector(board.borderWidth, height / 2);
+    // Place paddle in the middle of the users field border.
+    let initialXPos = player === 1 ? board.borderWidth : width - board.borderWidth * 2;
+    this.position = createVector(initialXPos, height / 2);
     this.setVelocity(createVector(0, 0), this.speed);
   }
 

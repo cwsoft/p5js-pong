@@ -4,9 +4,6 @@ class Board {
     this.borderWidth = 6;
     this.borderColor = "green";
     this.circleSize = 100;
-    this.goalWidth = 10;
-    this.goalLength = 150;
-    this.goalColor = "orange";
   }
 
   draw() {
@@ -24,15 +21,5 @@ class Board {
 
     // Draw middle circle.
     ellipse(width / 2, height / 2, this.circleSize);
-
-    // Draw goal player has to hit with the ball to win the game.
-    fill(this.goalColor);
-    noStroke();
-    rect(
-      width - this.borderWidth * 2 - this.goalWidth / 2,
-      height / 2 - this.goalLength / 2,
-      this.borderWidth * 2,
-      this.goalLength
-    );
   }
 }
