@@ -9,8 +9,8 @@ function setup() {
   let canvas = createCanvas(canvasContainer.clientWidth, canvasContainer.clientHeight);
   canvas.parent("canvas-container");
   board = new Board();
-  player1 = new Paddle(1, UP_ARROW, DOWN_ARROW);
-  player2 = new Paddle(2, 81, 65); // UP: Q, DOWN: A
+  player1 = new Paddle(1, 81, 65); // UP: Q, DOWN: A
+  player2 = new Paddle(2, UP_ARROW, DOWN_ARROW);
   ball = new Ball();
 }
 
@@ -49,8 +49,8 @@ function draw() {
 function keyPressed() {
   if (!game.started && keyCode === RETURN) {
     ball = new Ball();
-    player1 = new Paddle(1, UP_ARROW, DOWN_ARROW);
-    player2 = new Paddle(2, 81, 65); // UP: Q, DOWN: A
+    player1 = new Paddle(1, 81, 65); // UP: Q, DOWN: A
+    player2 = new Paddle(2, UP_ARROW, DOWN_ARROW);
     game.started = true;
     game.winner = 0;
     return;
