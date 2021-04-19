@@ -10,7 +10,6 @@ class Ball {
 
     // Kick ball in random direction.
     this.setVelocity(p5.Vector.fromAngle(radians(random(-60, 60))).mult(random(-10, 10)), this.speed);
-    this.setVelocity(createVector(1, 0.03), this.speed);
   }
 
   // Set ball velocity vector.
@@ -21,19 +20,22 @@ class Ball {
 
   // Add velocity vector to balls position vector per frame rate.
   update() {
-    let normalVector;
     if (this._bounceFromTopOrBottomFieldBorder()) {
       // Re-bounce ball if it hits the top or bottom field border.
-      normalVector = createVector(0, -1);
+      let normalVector = createVector(0, -1);
       this.setVelocity(this.velocity.reflect(normalVector), this.speed);
     } else if (this._bounceFromPlayer1()) {
-      // Re-bounce ball from player 1 paddle.
-      normalVector = createVector(-1, 0);
-      this.setVelocity(this.velocity.reflect(normalVector), this.speed);
+      // Re-bounce ball from player 1 paddle with artificial deflection angle based on ball y hit position.
+      let pannelHitFraction = (this.position.y - player1.position.y) / player1.height;
+      let deflectionAngle = map(pannelHitFraction, -0.5, 0.5, -30, 30);
+      let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
+      this.setVelocity(deflectionVector, this.speed);
     } else if (this._bounceFromPlayer2()) {
-      // Re-bounce ball from player 2 paddle.
-      normalVector = createVector(-1, 0);
-      this.setVelocity(this.velocity.reflect(normalVector), this.speed);
+      // Re-bounce ball from player 2 paddle with artificial deflection angle based on ball y hit position.
+      let pannelHitFraction = (this.position.y - player2.position.y) / player2.height;
+      let deflectionAngle = map(pannelHitFraction, 0.5, -0.5, -30, 30);
+      let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
+      this.setVelocity(deflectionVector.mult(-1), this.speed);
     } else if (this.position.x + this.width / 2 >= width - board.borderWidth * 2) {
       // Check if player 1 won the game.
       game.winner = 1;
