@@ -30,15 +30,16 @@ class Paddle {
   // Update paddle position.
   update() {
     this.position.add(this.velocity);
-    this.draw();
 
-    // Stop paddle when hitting top or bottom playground borders.
+    // If paddle hits top or bottom field border, revert last movement.
     if (
-      this.position.y - this.height / 2 <= board.borderWidth * 2 ||
-      this.position.y + this.height / 2 + board.borderWidth * 2 > height
+      this.position.y - this.height / 2 <= board.borderWidth / 2 ||
+      this.position.y + this.height / 2 >= height - board.borderWidth / 2
     ) {
-      this.setVelocity(createVector(0, 0));
+      this.position.sub(this.velocity);
     }
+
+    this.draw();
   }
 
   // Draw updated paddle.
