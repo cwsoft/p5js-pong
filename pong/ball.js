@@ -6,12 +6,20 @@ class Ball {
     this.speed = 10;
     this.speedIncrement = 0.5;
     this.maxSpeed = 20;
+    this.maxAngleField = 60;
 
     // Place ball in canvas center.
     this.position = createVector(width / 2, height / 2);
 
-    // Kick ball in random direction within given angle segment.
-    this.setVelocity(p5.Vector.fromAngle(radians(random(-60, 60))).mult(random(-10, 10)), this.speed);
+    // Get random direction vector within angle field between -maxAngle..+maxAngle.
+    // Note: Limit angle field to avoid infinite bouncing between top/bottom walls (-90°, +90°.)
+    let vDirection = p5.Vector.fromAngle(radians(random(-this.maxAngleField, this.maxAngleField)));
+
+    // Randomly pick direction from set [-1, 1].
+    let xDirection = Math.floor(Math.random() * 2) == 0 ? -1 : 1;
+
+    // Kick ball in random x direction within given angle field betwen -maxAngle..+maxAngle.
+    this.setVelocity(vDirection.mult(xDirection), this.speed);
   }
 
   // Set ball velocity vector.
