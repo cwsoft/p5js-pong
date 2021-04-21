@@ -1,80 +1,86 @@
-// Class to draw a moving ball on the canvas.
+// Class to draw and move the ball on the playfield and to detect collisions.
 class Ball {
   constructor() {
     // Set defaults.
     this.width = 20;
-    this.speed = random(5, 10);
+    this.speed = 10;
+    this.speedIncrement = 0.5;
+    this.maxSpeed = 20;
 
-    // Place ball in the canvas center.
+    // Place ball in canvas center.
     this.position = createVector(width / 2, height / 2);
 
-    // Kick ball in random direction.
+    // Kick ball in random direction within given angle segment.
     this.setVelocity(p5.Vector.fromAngle(radians(random(-60, 60))).mult(random(-10, 10)), this.speed);
   }
 
   // Set ball velocity vector.
   setVelocity(direction, speed) {
     this.velocity = direction.normalize().mult(speed);
-    this.speed = speed;
+    this.speed = speed >= this.maxSpeed ? this.maxSpeed : speed;
   }
 
   // Add velocity vector to balls position vector per frame rate.
-  update() {
-    if (this._bounceFromTopOrBottomFieldBorder()) {
-      // Re-bounce ball if it hits the top or bottom field border.
+  move() {
+    // Check ball collision with playfield wall, player paddles or side outs.
+    if (this._checkWallCollision()) {
+      // Reflect ball from playfield walls.
       let normalVector = createVector(0, -1);
       this.setVelocity(this.velocity.reflect(normalVector), this.speed);
-    } else if (this._bounceFromPlayer1()) {
-      // Re-bounce ball from player 1 paddle with artificial deflection angle based on ball y hit position.
+      sounds.hitWall.play();
+    } else if (this._checkPlayer1Collision()) {
+      // Reflect ball with artificial angle mapped to paddle y hit position.
       let pannelHitFraction = (this.position.y - player1.position.y) / player1.height;
       let deflectionAngle = map(pannelHitFraction, -0.5, 0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
-      this.setVelocity(deflectionVector, this.speed);
-    } else if (this._bounceFromPlayer2()) {
-      // Re-bounce ball from player 2 paddle with artificial deflection angle based on ball y hit position.
+      this.setVelocity(deflectionVector, this.speed + this.speedIncrement);
+      sounds.hitPaddle.play();
+    } else if (this._checkPlayer2Collision()) {
+      // Reflect ball with artificial angle mapped to paddle y hit position.
       let pannelHitFraction = (this.position.y - player2.position.y) / player2.height;
       let deflectionAngle = map(pannelHitFraction, 0.5, -0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
-      this.setVelocity(deflectionVector.mult(-1), this.speed);
-    } else if (this.position.x + this.width / 2 >= width - board.borderWidth * 2) {
-      // Check if player 1 won the game.
-      game.winner = 1;
+      this.setVelocity(deflectionVector.mult(-1), this.speed + this.speedIncrement);
+      sounds.hitPaddle.play();
+    } else if (this.position.x + this.width / 2 >= width) {
+      // Ball hits player2 side, increase player1 score.
+      game.increaseScore(1);
+      game.running = false;
+      sounds.increaseScore.play();
       return;
-    } else if (this.position.x - this.width / 2 <= board.borderWidth) {
-      // Check if player 2 won the game.
-      game.winner = 2;
+    } else if (this.position.x - this.width / 2 <= 0) {
+      // Ball hits player1 side, increase player2 score.
+      game.increaseScore(2);
+      game.running = false;
+      sounds.increaseScore.play();
       return;
     }
 
-    // Update position and draw ball.
+    // Update ball position and redraw.
     this.position.add(this.velocity);
-    this.draw();
-  }
 
-  // Draw actual ball position.
-  draw() {
     fill(50, 100, 200);
     ellipse(this.position.x, this.position.y, this.width);
   }
 
-  _bounceFromTopOrBottomFieldBorder() {
-    return (
-      this.position.y - this.width / 2 <= board.borderWidth ||
-      this.position.y + this.width / 2 >= height - board.borderWidth * 2
-    );
+  // Check collision with playfield walls.
+  _checkWallCollision() {
+    return this.position.y - this.width / 2 <= game.topWallYPos || this.position.y + this.width / 2 >= game.bottomWallYPos;
   }
 
-  _bounceFromPlayer1() {
+  // Check collision with player1 paddle.
+  _checkPlayer1Collision() {
     return (
-      this.position.x - this.width / 2 <= board.borderWidth + player1.position.x + player1.width &&
+      this.position.x - this.width / 2 <= player1.position.x + player1.width / 2 &&
       this.position.y >= player1.position.y - player1.height / 2 &&
       this.position.y <= player1.position.y + player1.height / 2
     );
   }
 
-  _bounceFromPlayer2() {
+  // Check collision with player2 paddle.
+  _checkPlayer2Collision() {
     return (
-      this.position.x + this.width / 2 >= width - board.borderWidth * 2 &&
+      this.position.x + this.width / 2 >= player2.position.x - player2.width / 2 &&
       this.position.y >= player2.position.y - player2.height / 2 &&
       this.position.y <= player2.position.y + player2.height / 2
     );
