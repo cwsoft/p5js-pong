@@ -42,7 +42,7 @@ function draw() {
     game.statusMessage = "Ellapsed round time: " + ellapsedRoundTime + "s , Ball speed: " + ball.speed;
   } else {
     if (player1 != undefined) player1.draw();
-    if (player1 != undefined) player2.draw();
+    if (player2 != undefined) player2.draw();
   }
 }
 
