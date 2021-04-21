@@ -18,7 +18,7 @@ function setup() {
   canvas.parent("canvas-container");
   rectMode(CENTER);
   ellipseMode(CENTER);
-  noStroke(0);
+  noStroke();
 
   // Create Pong game objects.
   game = new Pong();
@@ -40,6 +40,9 @@ function draw() {
     actualTime = new Date();
     let ellapsedRoundTime = Math.round((actualTime - roundStartTime) / 1000);
     game.statusMessage = "Ellapsed round time: " + ellapsedRoundTime + "s , Ball speed: " + ball.speed;
+  } else {
+    if (player1 != undefined) player1.draw();
+    if (player1 != undefined) player2.draw();
   }
 }
 

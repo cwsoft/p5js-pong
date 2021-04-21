@@ -59,6 +59,7 @@ class Ball {
     // Update ball position and redraw.
     this.position.add(this.velocity);
 
+    // Draw ball at upated position.
     fill(50, 100, 200);
     ellipse(this.position.x, this.position.y, this.width);
   }

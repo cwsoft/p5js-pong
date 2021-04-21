@@ -13,7 +13,13 @@ class Player {
     this.speed = 10;
 
     this._createPaddle(playerNbr);
-    this._draw();
+    this.draw();
+  }
+
+  // Draw paddle at actual position.
+  draw() {
+    fill(245, 175, 46);
+    rect(this.position.x, this.position.y, this.width, this.height);
   }
 
   // Set paddle velocity vector.
@@ -27,7 +33,7 @@ class Player {
       this.setVelocity(createVector(0, keyIsDown(this.keyCodeUp) ? -1 : 1));
       this._update();
     }
-    this._draw();
+    this.draw();
   }
 
   // Update paddle position.
@@ -39,13 +45,7 @@ class Player {
       this.position.sub(this.velocity);
     }
 
-    this._draw();
-  }
-
-  // Draw updated paddle.
-  _draw() {
-    fill(245, 175, 46);
-    rect(this.position.x, this.position.y, this.width, this.height);
+    this.draw();
   }
 
   // Create paddle and place it in the middle of the players border.
