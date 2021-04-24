@@ -1,6 +1,7 @@
 // Defining globals.
 let canvasContainer = document.getElementById("canvas-container");
-let game, ball, player1, player2, sounds, roundStartTime;
+let game, ball, leftPlayer, rightPlayer, sounds, roundStartTime;
+let playfieldOffset = 15;
 
 // Preload sound effects.
 function preload() {
@@ -33,16 +34,16 @@ function draw() {
   if (game.running) {
     // Move ball and player paddles.
     ball.move();
-    player1.move();
-    player2.move();
+    leftPlayer.move();
+    rightPlayer.move();
 
     // Display ellapsed round time and actual ball speed.
     actualTime = new Date();
     let ellapsedRoundTime = Math.round((actualTime - roundStartTime) / 1000);
     game.statusMessage = "Ellapsed round time: " + ellapsedRoundTime + "s , Ball speed: " + ball.speed;
   } else {
-    if (player1 != undefined) player1.draw();
-    if (player2 != undefined) player2.draw();
+    if (leftPlayer != undefined) leftPlayer.draw();
+    if (rightPlayer != undefined) rightPlayer.draw();
   }
 }
 
@@ -51,8 +52,8 @@ function keyPressed() {
   // Check if SPACE bar (keyCode=32) is pressed to start the game.
   if (!game.running && keyCode === 32) {
     // Reset to initial paddle and ball position.
-    player1 = new Player(1, 81, 65); // UP: Q, DOWN: A
-    player2 = new Player(2, UP_ARROW, DOWN_ARROW);
+    leftPlayer = new Player(playfieldOffset, "q", "a");
+    rightPlayer = new Player(width - playfieldOffset, UP_ARROW, DOWN_ARROW);
     ball = new Ball();
     game.running = true;
     game.statusMessage = "";

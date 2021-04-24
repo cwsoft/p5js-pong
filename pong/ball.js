@@ -38,14 +38,14 @@ class Ball {
       sounds.hitWall.play();
     } else if (this._checkPlayer1Collision()) {
       // Reflect ball with artificial angle mapped to paddle y hit position.
-      let pannelHitFraction = (this.position.y - player1.position.y) / player1.height;
+      let pannelHitFraction = (this.position.y - leftPlayer.position.y) / leftPlayer.height;
       let deflectionAngle = map(pannelHitFraction, -0.5, 0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
       this.setVelocity(deflectionVector, this.speed + this.speedIncrement);
       sounds.hitPaddle.play();
     } else if (this._checkPlayer2Collision()) {
       // Reflect ball with artificial angle mapped to paddle y hit position.
-      let pannelHitFraction = (this.position.y - player2.position.y) / player2.height;
+      let pannelHitFraction = (this.position.y - rightPlayer.position.y) / rightPlayer.height;
       let deflectionAngle = map(pannelHitFraction, 0.5, -0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
       this.setVelocity(deflectionVector.mult(-1), this.speed + this.speedIncrement);
@@ -80,18 +80,18 @@ class Ball {
   // Check collision with player1 paddle.
   _checkPlayer1Collision() {
     return (
-      this.position.x - this.width / 2 <= player1.position.x + player1.width / 2 &&
-      this.position.y >= player1.position.y - player1.height / 2 &&
-      this.position.y <= player1.position.y + player1.height / 2
+      this.position.x - this.width / 2 <= leftPlayer.position.x + leftPlayer.width / 2 &&
+      this.position.y >= leftPlayer.position.y - leftPlayer.height / 2 &&
+      this.position.y <= leftPlayer.position.y + leftPlayer.height / 2
     );
   }
 
   // Check collision with player2 paddle.
   _checkPlayer2Collision() {
     return (
-      this.position.x + this.width / 2 >= player2.position.x - player2.width / 2 &&
-      this.position.y >= player2.position.y - player2.height / 2 &&
-      this.position.y <= player2.position.y + player2.height / 2
+      this.position.x + this.width / 2 >= rightPlayer.position.x - rightPlayer.width / 2 &&
+      this.position.y >= rightPlayer.position.y - rightPlayer.height / 2 &&
+      this.position.y <= rightPlayer.position.y + rightPlayer.height / 2
     );
   }
 }

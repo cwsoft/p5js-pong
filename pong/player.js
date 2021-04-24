@@ -1,18 +1,20 @@
 // Class to draw and move players paddle on the playfield.
 class Player {
-  constructor(playerNbr, keyCodeUp, keyCodeDown, paddleHeight = 75) {
+  constructor(paddleXCenter = 15, keyUp = UP_ARROW, keyDown = DOWN_ARROW, paddleHeight = 75) {
     // Store key codes to move paddle of each player.
-    this.playerNbr = playerNbr;
-    this.keyCodeUp = keyCodeUp;
-    this.keyCodeDown = keyCodeDown;
+    if (typeof keyUp === "string") keyUp = keyUp.toUpperCase().charCodeAt(0);
+    this.keyCodeUp = keyUp;
+    if (typeof keyDown === "string") keyDown = keyDown.toUpperCase().charCodeAt(0);
+    this.keyCodeDown = keyDown;
 
     // Paddle object position, size and speed.
-    this.distanceFromEdges = 10;
+    this.paddleXCenter = paddleXCenter;
     this.height = paddleHeight;
     this.width = 10;
     this.speed = 10;
 
-    this._createPaddle(playerNbr);
+    // Place paddle on playfield.
+    this._createPaddle();
     this.draw();
   }
 
@@ -50,8 +52,7 @@ class Player {
 
   // Create paddle and place it in the middle of the players border.
   _createPaddle() {
-    let initialXPos = this.playerNbr === 1 ? this.distanceFromEdges : width - this.distanceFromEdges;
-    this.position = createVector(initialXPos, height / 2);
+    this.position = createVector(this.paddleXCenter, height / 2);
     this.setVelocity(createVector(0, 0), this.speed);
   }
 }
