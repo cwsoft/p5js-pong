@@ -1,6 +1,7 @@
 // Defining globals.
 let canvasContainer = document.getElementById("canvas-container");
 let game, ball, leftPlayer, rightPlayer, sounds, roundStartTime;
+let rightPlayerIsComputer = true;
 let playfieldOffset = 15;
 
 // Preload sound effects.
@@ -20,6 +21,10 @@ function setup() {
   rectMode(CENTER);
   ellipseMode(CENTER);
   noStroke();
+
+  // Set right player to computer by adding URL parameter: ?rightPlayer=computer.
+  let urlParameter = getURLParams();
+  rightPlayerIsComputer = urlParameter.rightPlayer != undefined && urlParameter.rightPlayer.toLowerCase() === "computer";
 
   // Create Pong game objects.
   game = new Pong();
@@ -51,10 +56,16 @@ function draw() {
 function keyPressed() {
   // Check if SPACE bar (keyCode=32) is pressed to start the game.
   if (!game.running && keyCode === 32) {
-    // Reset to initial paddle and ball position.
-    leftPlayer = new Player(playfieldOffset, "q", "a");
-    rightPlayer = new Player(width - playfieldOffset, UP_ARROW, DOWN_ARROW);
+    // Initialize left and right player paddles and ball position.
+    leftPlayer = new Player(playfieldOffset, UP_ARROW, DOWN_ARROW);
+    if (rightPlayerIsComputer) {
+      rightPlayer = new Computer(width - playfieldOffset);
+    } else {
+      rightPlayer = new Player(width - playfieldOffset, "q", "a");
+    }
     ball = new Ball();
+
+    // Set game state and start round timer.
     game.running = true;
     game.statusMessage = "";
     roundStartTime = new Date();

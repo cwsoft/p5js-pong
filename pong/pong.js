@@ -2,8 +2,8 @@
 class Pong {
   constructor() {
     // Treate as private fields.
-    this._player1Score = 0;
-    this._player2Score = 0;
+    this._leftPlayerScore = 0;
+    this._rightPlayerScore = 0;
 
     // Public fields for now.
     this.running = false;
@@ -13,17 +13,18 @@ class Pong {
     this.bottomWallYPos = height - this.wallThickness;
 
     this.statusMessage = "Pong – Hit [SPACE] to start a new round.";
-    this.usageMessage = "Left 👤 [q]:Up, [a]:Down  |  Right 👤 [⬆], [⬇]  |  New Round:[SPACE]  |  Restart: [F5]";
+    this.usageMessage = "Left 👤 [⬆], [⬇]  |  Right 👤 [q]:Up, [a]:Down  |  New Round:[SPACE]  |  Restart: [F5]";
   }
 
+  // Get total score of left and right player.
   get totalScore() {
-    return this._player1Score + this._player2Score;
+    return this._leftPlayerScore + this._rightPlayerScore;
   }
 
   // Increase given players score and refresh display.
   increaseScore(playerNbr) {
-    if (playerNbr == 1) this._player1Score++;
-    if (playerNbr == 2) this._player2Score++;
+    if (playerNbr == 1) this._leftPlayerScore++;
+    if (playerNbr == 2) this._rightPlayerScore++;
     this._refreshPlayerScores();
   }
 
@@ -45,9 +46,9 @@ class Pong {
     textStyle(BOLD);
 
     textAlign(RIGHT);
-    text(this._player1Score, width / 2 - 30, this.topWallYPos + 50);
+    text(this._leftPlayerScore, width / 2 - 30, this.topWallYPos + 50);
     textAlign(LEFT);
-    text(this._player2Score, width / 2 + 30, this.topWallYPos + 50);
+    text(this._rightPlayerScore, width / 2 + 30, this.topWallYPos + 50);
 
     textStyle(NORMAL);
   }
