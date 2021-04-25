@@ -14,7 +14,7 @@ class Pong {
     this.bottomWallYPos = height - this.wallThickness;
 
     // Initial status message.
-    this.statusMessage = "Pong – Hit [SPACE] to start a new round.";
+    this.statusMessage = "p5js-Pong – Press [SPACE] to start new round.";
   }
 
   // Get total score of left and right player.
@@ -71,7 +71,7 @@ class Pong {
     if (!rightPlayerIsComputer) {
       rightControl = rightControlIsMouse ? "Mouse" : leftControlIsMouse ? "[⬆], [⬇]" : "[q]:Up, [a]:Down";
     }
-    let usageMessage = `Left 👤: ${leftControl}, ${rightPlayer} ${rightControl}, ▶ [SPACE], ⏯: [P], ⏭: [F5]`;
+    let usageMessage = `Left 👤: ${leftControl}, ${rightPlayer} ${rightControl}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
 
     // Update usage message.
     fill(0);

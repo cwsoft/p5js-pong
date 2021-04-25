@@ -52,14 +52,14 @@ class Ball {
       sounds.hitPaddle.play();
     } else if (this.position.x + this.width / 2 >= width) {
       // Ball hits right players side, increase left players score.
-      game.increaseScore(1);
-      game.isStarted = false;
+      pong.increaseScore(1);
+      pong.isStarted = false;
       sounds.increaseScore.play();
       return;
     } else if (this.position.x - this.width / 2 <= 0) {
       // Ball hits left players side, increase right players score.
-      game.increaseScore(2);
-      game.isStarted = false;
+      pong.increaseScore(2);
+      pong.isStarted = false;
       sounds.increaseScore.play();
       return;
     }
@@ -74,7 +74,7 @@ class Ball {
 
   // Check collision with playfield walls.
   _checkWallCollision() {
-    return this.position.y - this.width / 2 <= game.topWallYPos || this.position.y + this.width / 2 >= game.bottomWallYPos;
+    return this.position.y - this.width / 2 <= pong.topWallYPos || this.position.y + this.width / 2 >= pong.bottomWallYPos;
   }
 
   // Check collision with left players paddle.

@@ -1,6 +1,6 @@
 // Defining some globals.
 let canvasContainer = document.getElementById("canvas-container");
-let game, ball, leftPlayer, rightPlayer, sounds, roundStartTime;
+let pong, ball, leftPlayer, rightPlayer, sounds, roundStartTime;
 let rightPlayerIsComputer, leftControlIsMouse, rightControlIsMouse;
 let playfieldOffset = 15;
 
@@ -26,16 +26,16 @@ function setup() {
   getOptionalSettingsFromUrl();
 
   // Create Pong game objects.
-  game = new Pong();
+  pong = new Pong();
 }
 
 // Update game state on every frame rate.
 function draw() {
-  // Draw playfield and player paddles.
-  game.draw();
+  // Draw Pong playfield.
+  pong.draw();
 
-  // Only allow ball and paddle movement if game was started.
-  if (game.isStarted) {
+  // Only allow ball and paddle movement if Pong was started.
+  if (pong.isStarted) {
     // Move ball and player paddles.
     ball.move();
     leftPlayer.move();
@@ -44,7 +44,7 @@ function draw() {
     // Display ellapsed round time and actual ball speed.
     actualTime = new Date();
     let ellapsedRoundTime = Math.round((actualTime - roundStartTime) / 1000);
-    game.statusMessage = "Ellapsed round time: " + ellapsedRoundTime + "s , Ball speed: " + ball.speed;
+    pong.statusMessage = "Ellapsed round time: " + ellapsedRoundTime + "s , Ball speed: " + ball.speed;
   } else {
     if (leftPlayer != undefined) leftPlayer.draw();
     if (rightPlayer != undefined) rightPlayer.draw();
@@ -56,7 +56,7 @@ function keyPressed() {
   checkGamePauseState();
 
   // Check if SPACE bar (keyCode=32) is pressed to start the game.
-  if (!game.isStarted && keyCode === 32) {
+  if (!pong.isStarted && keyCode === 32) {
     // Initialize paddle of the left player.
     let paddleXPos = playfieldOffset;
     leftPlayer = leftControlIsMouse ? new MousePlayer(paddleXPos) : new Player(paddleXPos);
@@ -78,8 +78,8 @@ function keyPressed() {
     ball = new Ball();
 
     // Set game state and start round timer.
-    game.isStarted = true;
-    game.statusMessage = "";
+    pong.isStarted = true;
+    pong.statusMessage = "";
     roundStartTime = new Date();
     return;
   }
@@ -100,8 +100,8 @@ function getOptionalSettingsFromUrl() {
 
 // Toggle pause game state when pressing "p" or "P".
 function checkGamePauseState() {
-  if (key === "p" || key === "P") game.isPaused = !game.isPaused;
-  if (game.isPaused) {
+  if (key === "p" || key === "P") pong.isPaused = !pong.isPaused;
+  if (pong.isPaused) {
     noLoop();
   } else {
     loop();

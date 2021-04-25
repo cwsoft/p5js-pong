@@ -43,7 +43,7 @@ class Player {
     this.position.add(this.velocity);
 
     // Revert last movement if paddle hits top or bottom playfield walls.
-    if (this.position.y - this.height / 2 <= game.topWallYPos || this.position.y + this.height / 2 >= game.bottomWallYPos) {
+    if (this.position.y - this.height / 2 <= pong.topWallYPos || this.position.y + this.height / 2 >= pong.bottomWallYPos) {
       this.position.sub(this.velocity);
     }
 
