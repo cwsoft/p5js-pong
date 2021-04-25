@@ -59,7 +59,7 @@ function keyPressed() {
     // Initialize left and right player paddles and ball position.
     leftPlayer = new Player(playfieldOffset, UP_ARROW, DOWN_ARROW);
     if (rightPlayerIsComputer) {
-      rightPlayer = new Computer(width - playfieldOffset);
+      rightPlayer = new ComputerPlayer(width - playfieldOffset);
     } else {
       rightPlayer = new Player(width - playfieldOffset, "q", "a");
     }

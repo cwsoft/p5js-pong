@@ -1,5 +1,5 @@
 // Class to draw and move computer paddle on the playfield.
-class Computer extends Player {
+class ComputerPlayer extends Player {
   constructor(paddleXCenter, keyUp = null, keyDown = null, paddleHeight = 75) {
     super(paddleXCenter, keyUp, keyDown, paddleHeight);
     this.movingThreshold = 0.4;
