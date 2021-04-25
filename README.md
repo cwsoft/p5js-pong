@@ -2,6 +2,8 @@
 
 Browser implementation of the old Arcade game Pong using the great [p5js](https://p5js.org/) Javascript library. The game includes different player modes (human/computer) a counter, basic sound effects and gimmicks like increasing ball speed when ball bounces from the player paddles. Many thanks to [Daniel Shiffman](https://shiffman.net/) for his very inspiring [Youtube videos](https://www.youtube.com/c/TheCodingTrain/playlists), which made me aware of the great p5js library and inspired me to get in touch with it.
 
+![Animated GIF](./screenshot.gif)
+
 ## Live Demo
 
 You can play a live demo with [two human players](https://cwsoft.github.io/p5js-pong/) or [human vs. computer](https://cwsoft.github.io/p5js-pong/?rightPlayer=computer) thanks to Github Pages. If you don´t like keyboard controls, you can play [against the computer using the mouse](https://cwsoft.github.io/p5js-pong/?rightPlayer=computer&leftControl=mouse) as well.
