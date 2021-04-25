@@ -8,12 +8,15 @@ You can play a live demo with [two human players](https://cwsoft.github.io/p5js-
 
 ## Basic Usage
 
-1.  Download files to your computer or view [live demo](https://cwsoft.github.io/p5js-pong/)
-2.  Browse index.html (or index.html?rightPlayer=computer) in a modern browser (e.g. Firefox)
-3.  Press `SPACE` to start a new round, `P` to pause the game or `F5` to re-start from scratch.
-4.  Default: Left player controls paddle via `CURSOR_UP` and `CURSOR_DOWN` keys.
-5.  Default: Right player controls paddle via `q` (UP) and `a` (DOWN) keys.
-6.  Overwrite defaults with optional URL GET parameters: `?rightPlayer=computer, ?leftControl=mouse, ?rightControl=mouse`
+1.  Download files to your computer or view [live demo](https://cwsoft.github.io/p5js-pong/).
+2.  Browse index.html (or index.html?rightPlayer=computer) in a modern browser (e.g. Firefox).
+3.  Press `SPACE` to start a new round, `P` to pause the game or `F5` to start from scratch.
+4.  By default, left player moves paddle via `CURSOR_UP` and `CURSOR_DOWN`, right player via `q` (UP) and `a` (DOWN) keys.
+5.  One can overwrite defaults by adding optional GET parameters to the main index URL:
+    - `?rightPlayer=computer`
+    - `?leftControl=mouse`
+    - `?rightControl=mouse`
+    - Example URL: https://cwsoft.github.io/p5js-pong/?rightPlayer=computer&leftControl=mouse
 
 ## Whats next
 
