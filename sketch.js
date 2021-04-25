@@ -1,7 +1,7 @@
-// Defining globals.
+// Defining some globals.
 let canvasContainer = document.getElementById("canvas-container");
 let game, ball, leftPlayer, rightPlayer, sounds, roundStartTime;
-let rightPlayerIsComputer = true;
+let rightPlayerIsComputer, leftControlIsMouse, rightControlIsMouse;
 let playfieldOffset = 15;
 
 // Preload sound effects.
@@ -22,9 +22,8 @@ function setup() {
   ellipseMode(CENTER);
   noStroke();
 
-  // Set right player to computer by adding URL parameter: ?rightPlayer=computer.
-  let urlParameter = getURLParams();
-  rightPlayerIsComputer = urlParameter.rightPlayer != undefined && urlParameter.rightPlayer.toLowerCase() === "computer";
+  // Get optional configuration settings via URL get parameter.
+  getOptionalSettingsFromUrl();
 
   // Create Pong game objects.
   game = new Pong();
@@ -56,13 +55,24 @@ function draw() {
 function keyPressed() {
   // Check if SPACE bar (keyCode=32) is pressed to start the game.
   if (!game.running && keyCode === 32) {
-    // Initialize left and right player paddles and ball position.
-    leftPlayer = new Player(playfieldOffset, UP_ARROW, DOWN_ARROW);
+    // Initialize paddle of the left player.
+    let paddleXPos = playfieldOffset;
+    leftPlayer = leftControlIsMouse ? new MousePlayer(paddleXPos) : new Player(paddleXPos);
+
+    // Initialize paddle of the right player.
+    paddleXPos = width - playfieldOffset;
     if (rightPlayerIsComputer) {
-      rightPlayer = new ComputerPlayer(width - playfieldOffset);
+      rightPlayer = new ComputerPlayer(paddleXPos);
     } else {
-      rightPlayer = new Player(width - playfieldOffset, "q", "a");
+      if (rightControlIsMouse) {
+        rightPlayer = new MousePlayer(paddleXPos);
+      } else {
+        // If left player uses mouse, use UP/DOWN arrow for right player, otherwise use "Q" and "A".
+        rightPlayer = leftControlIsMouse ? new Player(paddleXPos) : new Player(paddleXPos, "q", "a");
+      }
     }
+
+    // Initialize ball.
     ball = new Ball();
 
     // Set game state and start round timer.
@@ -71,6 +81,19 @@ function keyPressed() {
     roundStartTime = new Date();
     return;
   }
+}
+
+// Get optional configuration settings via URL get parameter.
+// Supported GET parameters: rightPlayer=computer, leftControl=keyboard|mouse, rightControl=keyboard|mouse.
+function getOptionalSettingsFromUrl() {
+  let urlParameter = getURLParams();
+  rightPlayerIsComputer = urlParameter.rightPlayer != undefined && urlParameter.rightPlayer.toLowerCase() === "computer";
+  leftControlIsMouse = urlParameter.leftControl != undefined && urlParameter.leftControl.toLowerCase() === "mouse";
+  rightControlIsMouse = urlParameter.rightControl != undefined && urlParameter.rightControl.toLowerCase() === "mouse";
+
+  // When in two player mode, only one player can use the mouse, while the other player must use the keyboard.
+  if (rightPlayerIsComputer) rightControlIsMouse = false;
+  if (leftControlIsMouse && rightControlIsMouse) rightControlIsMouse = false;
 }
 
 // Update screen size.

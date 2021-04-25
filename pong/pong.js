@@ -12,8 +12,8 @@ class Pong {
     this.topWallYPos = 0 + this.wallThickness;
     this.bottomWallYPos = height - this.wallThickness;
 
+    // Initial status message.
     this.statusMessage = "Pong – Hit [SPACE] to start a new round.";
-    this.usageMessage = "Left 👤 [⬆], [⬇]  |  Right 👤 [q]:Up, [a]:Down  |  New Round:[SPACE]  |  Restart: [F5]";
   }
 
   // Get total score of left and right player.
@@ -63,10 +63,20 @@ class Pong {
 
   // Refresh usage message.
   _refreshUsageMessage() {
+    // Work out usage message text based on optional URL GET parameters.
+    let leftControl = leftControlIsMouse ? "Mouse" : "[⬆], [⬇]";
+    let rightPlayer = rightPlayerIsComputer ? "Right 💻:" : "Right 👤:";
+    let rightControl = "";
+    if (!rightPlayerIsComputer) {
+      rightControl = rightControlIsMouse ? "Mouse" : leftControlIsMouse ? "[⬆], [⬇]" : "[q]:Up, [a]:Down";
+    }
+    let usageMessage = `Left 👤: ${leftControl}, ${rightPlayer} ${rightControl}, ▶:[SPACE], Restart: [F5]`;
+
+    // Update usage message.
     fill(0);
     textSize(16);
     textAlign(CENTER);
-    text(this.usageMessage, width / 2, this.bottomWallYPos + this.wallThickness / 2 + 2);
+    text(usageMessage, width / 2, this.bottomWallYPos + this.wallThickness / 2 + 2);
   }
 
   // Draw dashed center line.

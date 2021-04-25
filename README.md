@@ -4,15 +4,16 @@ Browser implementation of the old Arcade game Pong using the great [p5js](https:
 
 ## Live Demo
 
-You can play a live demo either with [two human players](https://cwsoft.github.io/p5js-pong/) or [human vs. computer](https://cwsoft.github.io/p5js-pong/?rightPlayer=computer) thanks to Github Pages.
+You can play a live demo with [two human players](https://cwsoft.github.io/p5js-pong/) or [human vs. computer](https://cwsoft.github.io/p5js-pong/?rightPlayer=computer) thanks to Github Pages. If you don´t like keyboard controls, you can play [against the computer using the mouse](https://cwsoft.github.io/p5js-pong/?rightPlayer=computer&leftControl=mouse) as well.
 
 ## Basic Usage
 
 1.  Download files to your computer or view [live demo](https://cwsoft.github.io/p5js-pong/)
 2.  Browse index.html (or index.html?rightPlayer=computer) in a modern browser (e.g. Firefox)
 3.  Press `SPACE` to start the game or `F5` to start over.
-4.  Left player controls the paddle via `CURSOR_UP` and `CURSOR_DOWN` keys.
-5.  Right player controls the paddle via `q` (UP) and `a` (DOWN) keys.
+4.  Default: Left player controls paddle via `CURSOR_UP` and `CURSOR_DOWN` keys.
+5.  Default: Right player controls paddle via `q` (UP) and `a` (DOWN) keys.
+6.  Overwrite defaults with optional URL GET parameters: `?rightPlayer=computer, ?leftControl=mouse, ?rightControl=mouse`
 
 ## Whats next
 
