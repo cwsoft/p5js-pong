@@ -1,7 +1,7 @@
 // Class to setup Pong playing field.
 class Pong {
   constructor() {
-    // Treate as private fields.
+    // Treated as private fields.
     this._leftPlayerScore = 0;
     this._rightPlayerScore = 0;
 
@@ -40,6 +40,9 @@ class Pong {
     this._refreshUsageMessage();
   }
 
+  // ---------------------------------------------------------------------------------------
+  // Belows API should be treated as private API.
+  // ---------------------------------------------------------------------------------------
   // Refresh players scores.
   _refreshPlayerScores() {
     fill(255);
@@ -64,14 +67,23 @@ class Pong {
 
   // Refresh usage message.
   _refreshUsageMessage() {
-    // Work out usage message text based on optional URL GET parameters.
-    let leftControl = leftControlIsMouse ? "Mouse" : "[⬆], [⬇]";
+    // Work out if players are human or computer.
+    let leftPlayer = leftPlayerIsComputer ? "Left 💻:" : "Left 👤:";
     let rightPlayer = rightPlayerIsComputer ? "Right 💻:" : "Right 👤:";
-    let rightControl = "";
-    if (!rightPlayerIsComputer) {
-      rightControl = rightControlIsMouse ? "Mouse" : leftControlIsMouse ? "[⬆], [⬇]" : "[q]:Up, [a]:Down";
-    }
-    let usageMessage = `Left 👤: ${leftControl}, ${rightPlayer} ${rightControl}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
+
+    // Work out controls used for left and right player.
+    let leftControl = leftControlIsMouse ? "Mouse" : "[⬆], [⬇]";
+    leftControl = leftPlayerIsComputer ? "" : leftControl;
+
+    let rightControl = rightControlIsMouse
+      ? "Mouse"
+      : leftPlayerIsComputer || leftControlIsMouse
+      ? "[⬆], [⬇]"
+      : "[q]:Up, [a]:Down";
+    rightControl = rightPlayerIsComputer ? "" : rightControl;
+
+    // Build usage message.
+    let usageMessage = `${leftPlayer} ${leftControl}, ${rightPlayer} ${rightControl}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
 
     // Update usage message.
     fill(0);

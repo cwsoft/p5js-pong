@@ -1,7 +1,7 @@
 // Defining some globals.
 let canvasContainer = document.getElementById("canvas-container");
 let pong, ball, leftPlayer, rightPlayer, sounds, roundStartTime;
-let rightPlayerIsComputer, leftControlIsMouse, rightControlIsMouse;
+let leftPlayerIsComputer, rightPlayerIsComputer, leftControlIsMouse, rightControlIsMouse;
 let playfieldOffset = 15;
 
 // Preload sound effects.
@@ -55,13 +55,18 @@ function draw() {
 function keyPressed() {
   checkGamePauseState();
 
-  // Check if SPACE bar (keyCode=32) is pressed to start the game.
-  if (!pong.isStarted && keyCode === 32) {
-    // Initialize paddle of the left player.
+  // Check if SPACE bar is pressed to start the game.
+  if (!pong.isStarted && key === " ") {
+    // Initialize left player paddle and controls.
     let paddleXPos = playfieldOffset;
-    leftPlayer = leftControlIsMouse ? new MousePlayer(paddleXPos) : new Player(paddleXPos);
+    if (leftPlayerIsComputer) {
+      leftPlayer = new ComputerPlayer(paddleXPos);
+    } else {
+      // If left player uses keyboard, always assign UP/DOWN keys.
+      leftPlayer = leftControlIsMouse ? new MousePlayer(paddleXPos) : new Player(paddleXPos);
+    }
 
-    // Initialize paddle of the right player.
+    // Initialize right player paddle and controls.
     paddleXPos = width - playfieldOffset;
     if (rightPlayerIsComputer) {
       rightPlayer = new ComputerPlayer(paddleXPos);
@@ -69,8 +74,8 @@ function keyPressed() {
       if (rightControlIsMouse) {
         rightPlayer = new MousePlayer(paddleXPos);
       } else {
-        // If left player uses mouse, use UP/DOWN arrow for right player, otherwise use "Q" and "A".
-        rightPlayer = leftControlIsMouse ? new Player(paddleXPos) : new Player(paddleXPos, "q", "a");
+        // Assign right player UP/DOWN keys if left player does not use keyboard, otherwise use "Q" and "A" keys.
+        rightPlayer = leftPlayerIsComputer || leftControlIsMouse ? new Player(paddleXPos) : new Player(paddleXPos, "q", "a");
       }
     }
 
@@ -86,16 +91,22 @@ function keyPressed() {
 }
 
 // Get optional configuration settings via URL get parameter.
-// Supported GET parameters: rightPlayer=computer, leftControl=keyboard|mouse, rightControl=keyboard|mouse.
+// Supported GET parameters: left|rightPlayer=computer, left|rightControl=mouse.
 function getOptionalSettingsFromUrl() {
   let urlParameter = getURLParams();
+  // Work out if left and/or right player was set to computer.
+  leftPlayerIsComputer = urlParameter.leftPlayer != undefined && urlParameter.leftPlayer.toLowerCase() === "computer";
   rightPlayerIsComputer = urlParameter.rightPlayer != undefined && urlParameter.rightPlayer.toLowerCase() === "computer";
-  leftControlIsMouse = urlParameter.leftControl != undefined && urlParameter.leftControl.toLowerCase() === "mouse";
-  rightControlIsMouse = urlParameter.rightControl != undefined && urlParameter.rightControl.toLowerCase() === "mouse";
 
-  // When in two player mode, only one player can use the mouse, while the other player must use the keyboard.
+  // Work out controls used for left and right player.
+  leftControlIsMouse = urlParameter.leftControl != undefined && urlParameter.leftControl.toLowerCase() === "mouse";
+  if (leftPlayerIsComputer) leftControlIsMouse = false;
+  rightControlIsMouse = urlParameter.rightControl != undefined && urlParameter.rightControl.toLowerCase() === "mouse";
   if (rightPlayerIsComputer) rightControlIsMouse = false;
-  if (leftControlIsMouse && rightControlIsMouse) rightControlIsMouse = false;
+
+  // Ensure only one player is bound to mouse controls when game is in two human player mode.
+  if (!leftPlayerIsComputer && !rightPlayerIsComputer && leftControlIsMouse && rightControlIsMouse)
+    rightControlIsMouse = false;
 }
 
 // Toggle pause game state when pressing "p" or "P".

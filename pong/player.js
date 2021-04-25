@@ -7,7 +7,7 @@ class Player {
     if (typeof keyDown === "string") keyDown = keyDown.toUpperCase().charCodeAt(0);
     this.keyCodeDown = keyDown;
 
-    // Paddle object position, size and speed.
+    // Paddle object position, size and speed (could be configured via options object).
     this.paddleXCenter = paddleXCenter;
     this.height = paddleHeight;
     this.width = 10;
@@ -38,6 +38,9 @@ class Player {
     this.draw();
   }
 
+  // ---------------------------------------------------------------------------------------
+  // Belows API should be treated as private API.
+  // ---------------------------------------------------------------------------------------
   // Update paddle position.
   _update() {
     this.position.add(this.velocity);

@@ -1,7 +1,7 @@
 // Class to draw and move the ball on the playfield and to detect collisions.
 class Ball {
   constructor() {
-    // Set defaults.
+    // Set defaults (could be configured via options object).
     this.width = 20;
     this.speed = 10;
     this.speedIncrement = 0.5;
@@ -72,6 +72,9 @@ class Ball {
     ellipse(this.position.x, this.position.y, this.width);
   }
 
+  // ---------------------------------------------------------------------------------------
+  // Belows API should be treated as private API.
+  // ---------------------------------------------------------------------------------------
   // Check collision with playfield walls.
   _checkWallCollision() {
     return this.position.y - this.width / 2 <= pong.topWallYPos || this.position.y + this.width / 2 >= pong.bottomWallYPos;
