@@ -36,14 +36,14 @@ class Ball {
       let normalVector = createVector(0, -1);
       this.setVelocity(this.velocity.reflect(normalVector), this.speed);
       sounds.hitWall.play();
-    } else if (this._checkPlayer1Collision()) {
+    } else if (this._checkLeftPlayerCollision()) {
       // Reflect ball with artificial angle mapped to paddle y hit position.
       let pannelHitFraction = (this.position.y - leftPlayer.position.y) / leftPlayer.height;
       let deflectionAngle = map(pannelHitFraction, -0.5, 0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
       this.setVelocity(deflectionVector, this.speed + this.speedIncrement);
       sounds.hitPaddle.play();
-    } else if (this._checkPlayer2Collision()) {
+    } else if (this._checkRightPlayerCollision()) {
       // Reflect ball with artificial angle mapped to paddle y hit position.
       let pannelHitFraction = (this.position.y - rightPlayer.position.y) / rightPlayer.height;
       let deflectionAngle = map(pannelHitFraction, 0.5, -0.5, -30, 30);
@@ -51,13 +51,13 @@ class Ball {
       this.setVelocity(deflectionVector.mult(-1), this.speed + this.speedIncrement);
       sounds.hitPaddle.play();
     } else if (this.position.x + this.width / 2 >= width) {
-      // Ball hits player2 side, increase player1 score.
+      // Ball hits right players side, increase left players score.
       game.increaseScore(1);
       game.running = false;
       sounds.increaseScore.play();
       return;
     } else if (this.position.x - this.width / 2 <= 0) {
-      // Ball hits player1 side, increase player2 score.
+      // Ball hits left players side, increase right players score.
       game.increaseScore(2);
       game.running = false;
       sounds.increaseScore.play();
@@ -77,8 +77,8 @@ class Ball {
     return this.position.y - this.width / 2 <= game.topWallYPos || this.position.y + this.width / 2 >= game.bottomWallYPos;
   }
 
-  // Check collision with player1 paddle.
-  _checkPlayer1Collision() {
+  // Check collision with left players paddle.
+  _checkLeftPlayerCollision() {
     return (
       this.position.x - this.width / 2 <= leftPlayer.position.x + leftPlayer.width / 2 &&
       this.position.y >= leftPlayer.position.y - leftPlayer.height / 2 &&
@@ -86,8 +86,8 @@ class Ball {
     );
   }
 
-  // Check collision with player2 paddle.
-  _checkPlayer2Collision() {
+  // Check collision with right players paddle.
+  _checkRightPlayerCollision() {
     return (
       this.position.x + this.width / 2 >= rightPlayer.position.x - rightPlayer.width / 2 &&
       this.position.y >= rightPlayer.position.y - rightPlayer.height / 2 &&
