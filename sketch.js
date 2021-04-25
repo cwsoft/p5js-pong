@@ -35,7 +35,7 @@ function draw() {
   game.draw();
 
   // Only allow ball and paddle movement if game was started.
-  if (game.running) {
+  if (game.isStarted) {
     // Move ball and player paddles.
     ball.move();
     leftPlayer.move();
@@ -53,8 +53,10 @@ function draw() {
 
 // Main entry point to start the game.
 function keyPressed() {
+  checkGamePauseState();
+
   // Check if SPACE bar (keyCode=32) is pressed to start the game.
-  if (!game.running && keyCode === 32) {
+  if (!game.isStarted && keyCode === 32) {
     // Initialize paddle of the left player.
     let paddleXPos = playfieldOffset;
     leftPlayer = leftControlIsMouse ? new MousePlayer(paddleXPos) : new Player(paddleXPos);
@@ -76,7 +78,7 @@ function keyPressed() {
     ball = new Ball();
 
     // Set game state and start round timer.
-    game.running = true;
+    game.isStarted = true;
     game.statusMessage = "";
     roundStartTime = new Date();
     return;
@@ -94,6 +96,16 @@ function getOptionalSettingsFromUrl() {
   // When in two player mode, only one player can use the mouse, while the other player must use the keyboard.
   if (rightPlayerIsComputer) rightControlIsMouse = false;
   if (leftControlIsMouse && rightControlIsMouse) rightControlIsMouse = false;
+}
+
+// Toggle pause game state when pressing "p" or "P".
+function checkGamePauseState() {
+  if (key === "p" || key === "P") game.isPaused = !game.isPaused;
+  if (game.isPaused) {
+    noLoop();
+  } else {
+    loop();
+  }
 }
 
 // Update screen size.

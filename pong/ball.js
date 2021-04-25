@@ -53,13 +53,13 @@ class Ball {
     } else if (this.position.x + this.width / 2 >= width) {
       // Ball hits right players side, increase left players score.
       game.increaseScore(1);
-      game.running = false;
+      game.isStarted = false;
       sounds.increaseScore.play();
       return;
     } else if (this.position.x - this.width / 2 <= 0) {
       // Ball hits left players side, increase right players score.
       game.increaseScore(2);
-      game.running = false;
+      game.isStarted = false;
       sounds.increaseScore.play();
       return;
     }

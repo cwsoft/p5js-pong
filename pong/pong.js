@@ -6,7 +6,8 @@ class Pong {
     this._rightPlayerScore = 0;
 
     // Public fields for now.
-    this.running = false;
+    this.isStarted = false;
+    this.isPaused = false;
 
     this.wallThickness = 40;
     this.topWallYPos = 0 + this.wallThickness;
@@ -70,7 +71,7 @@ class Pong {
     if (!rightPlayerIsComputer) {
       rightControl = rightControlIsMouse ? "Mouse" : leftControlIsMouse ? "[⬆], [⬇]" : "[q]:Up, [a]:Down";
     }
-    let usageMessage = `Left 👤: ${leftControl}, ${rightPlayer} ${rightControl}, ▶:[SPACE], Restart: [F5]`;
+    let usageMessage = `Left 👤: ${leftControl}, ${rightPlayer} ${rightControl}, ▶ [SPACE], ⏯: [P], ⏭: [F5]`;
 
     // Update usage message.
     fill(0);
