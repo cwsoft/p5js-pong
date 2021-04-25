@@ -4,7 +4,7 @@ class MousePlayer extends Player {
     super(paddleXCenter, keyUp, keyDown, paddleHeight);
   }
 
-  // Move computer paddle based on balls y-position.
+  // Move player paddle based on vertical mouse and paddle position.
   move() {
     // Derive mouse vertical direction.
     let mouseYDirection = mouseY - this.position.y;
