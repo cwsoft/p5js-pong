@@ -1,4 +1,4 @@
-// Class to draw and move computer paddle on the playfield.
+// Class to draw and move player paddle on the playfield using the mouse.
 class MousePlayer extends Player {
   constructor(paddleXCenter, keyUp = null, keyDown = null, paddleHeight = 75) {
     super(paddleXCenter, keyUp, keyDown, paddleHeight);
