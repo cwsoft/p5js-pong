@@ -6,26 +6,28 @@ Browser implementation of the old Arcade game Pong using the great [p5js](https:
 
 ## Live Demos via Github Pages
 
-Thanks to Github Pages, you can try out four Pong variations in your browser on the fly - touch devices not (yet) supported:
+Thanks to Github Pages, you can try out different Pong variations in your browser on the fly:
 
-- [two human players](https://cwsoft.github.io/p5js-pong/) both paddles moved via keyboard keys
-- [human vs. computer](https://cwsoft.github.io/p5js-pong/?rightPlayer=computer) human paddle moved via keyboard keys
-- [human mouse vs. computer](https://cwsoft.github.io/p5js-pong/?leftControl=mouse&rightPlayer=computer) human paddle moved via mouse
-- [computer vs. computer](https://cwsoft.github.io/p5js-pong/?leftPlayer=computer&rightPlayer=computer)
+- [human vs. computer](https://cwsoft.github.io/p5js-pong/) human paddle moved via keyboard
+- [human vs. human](https://cwsoft.github.io/p5js-pong/?leftController=keyboard&rightController=keyboard) both paddles moved via keyboard
+- [human touchpad vs. computer](https://cwsoft.github.io/p5js-pong/?leftController=touchpad) human paddle moved via touchpad
+- [human mouse vs. computer](https://cwsoft.github.io/p5js-pong/?leftController=mouse) human paddle moved via mouse
+- [computer vs. computer](https://cwsoft.github.io/p5js-pong/?leftController=computer&rightController=computer) just watch
 
 ## Basic Usage
 
 1.  Browse main `index.html` with a modern browser (e.g. Firefox, Chrome).
-2.  Press `SPACE` to start a new round, `P` to pause the game or `F5` to start from scratch.
-3.  Paddles are moved with keyboard `CURSOR_UP`, `CURSOR_DOWN`, respective `q` (UP) and `a` (DOWN) keys by default.
-4.  Defaults can be overwritten by adding optional GET parameters to the main `index.html URL`:
-    - `?leftPlayer=computer`, `?rightPlayer=computer`
-    - `?leftControl=mouse`, `?rightControl=mouse`
+2.  Press `SPACE` or touch on screen to start a new round, `P` to pause the game or `F5` to start from scratch.
+3.  Paddles are moved with keyboard `CURSOR_UP`, `CURSOR_DOWN`, respective `q` (UP) and `a` (DOWN) by default.
+4.  Defaults can be overwritten by adding optional GET parameters to `index.html` URL:
+    - `?leftController=computer|keyboard|mouse|touchpad`
+    - `?rightController=computer|keyboard|mouse|touchpad`
     - Example: https://cwsoft.github.io/p5js-pong/?leftControl=mouse&rightPlayer=computer
+    - Note: Not all possible variations are supported, just the most common ones
 
 ## Known Limitations
 
-There is (yet) no support for touch devices like an iPad unless you combine the touch device with an external keyboard.
+There is only limited support for ONE human player using a touch devices like an iPad.
 
 ## Contribution
 

@@ -68,22 +68,23 @@ class Pong {
   // Refresh usage message.
   _refreshUsageMessage() {
     // Work out if players are human or computer.
-    let leftPlayer = leftPlayerIsComputer ? "Left 💻:" : "Left 👤:";
-    let rightPlayer = rightPlayerIsComputer ? "Right 💻:" : "Right 👤:";
+    let player1 = leftController == Controller.computer ? "Left 💻" : "Left 👤:";
+    let player2 = rightController == Controller.computer ? "Right 💻" : "Right 👤:";
 
     // Work out controls used for left and right player.
-    let leftControl = leftControlIsMouse ? "Mouse" : "[⬆], [⬇]";
-    leftControl = leftPlayerIsComputer ? "" : leftControl;
+    let control1 = leftController == Controller.mouse ? "Mouse" : "[⬆], [⬇]";
+    control1 = leftController == Controller.computer ? "" : control1;
 
-    let rightControl = rightControlIsMouse
-      ? "Mouse"
-      : leftPlayerIsComputer || leftControlIsMouse
-      ? "[⬆], [⬇]"
-      : "[q]:Up, [a]:Down";
-    rightControl = rightPlayerIsComputer ? "" : rightControl;
+    let control2 =
+      rightController == Controller.mouse
+        ? "Mouse"
+        : leftController == Controller.computer || leftController == Controller.mouse
+        ? "[⬆], [⬇]"
+        : "[q]:Up, [a]:Down";
+    control2 = rightController == Controller.computer ? "" : control2;
 
     // Build usage message.
-    let usageMessage = `${leftPlayer} ${leftControl}, ${rightPlayer} ${rightControl}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
+    let usageMessage = `${player1} ${control1}, ${player2} ${control2}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
 
     // Update usage message.
     fill(0);
