@@ -7,7 +7,7 @@ class TouchpadPlayer extends Player {
   // Move player paddle based on vertical touch and paddle position.
   move() {
     // Derive mouse vertical direction.
-    let touchYPosition = touches.length > 0 ? touches[touches.length - 1].y : height / 2;
+    let touchYPosition = touches.length > 0 ? touches[touches.length - 1].y : this.position.y;
     let touchYDirection = touchYPosition - this.position.y;
 
     if (Math.abs(touchYDirection) <= this.height / 6) {
