@@ -29,7 +29,7 @@ function preload() {
 
 // Setup the p5 canvas.
 function setup() {
-  // Initialize canvas and reset drawing defaults.
+  // Initialize canvas and reset some defaults.
   let canvas = createCanvas(canvasContainer.clientWidth, canvasContainer.clientHeight);
   canvas.parent("canvas-container");
   rectMode(CENTER);
@@ -45,7 +45,7 @@ function setup() {
 
 // Update game state on every frame rate.
 function draw() {
-  // Refresh pong playfield.
+  // Redraw Pong playfield.
   pong.draw();
 
   if (pong.isStarted) {
@@ -60,18 +60,19 @@ function draw() {
     pong.statusMessage = "Ellapsed round time: " + ellapsedRoundTime + "s , Ball speed: " + ball.speed;
   } else {
     // Redraw paddles on last position if actual round was lost by any player.
+    // Otherwise the paddles would disappear once a player won a round.
     if (leftPlayer != undefined) leftPlayer.draw();
     if (rightPlayer != undefined) rightPlayer.draw();
   }
 }
 
-// React on key events to start and pause the game.
+// Evaluate key events to start new round or pause actual round.
 function keyPressed() {
   if (key === "p" || key === "P") togglePauseState();
   if (key === " " && !pong.isStarted) initializeNewRound();
 }
 
-// React on touch events to start and pause the game.
+// Evaluate touch events to start new round.
 function touchStarted() {
   if (!pong.isStarted) {
     // Simulate pressing SPACE key so we can start the game via a touch geasture.
@@ -80,7 +81,7 @@ function touchStarted() {
   }
 }
 
-// Update screen size.
+// Adjust canvas when user resizes browser window.
 function windowResized() {
   resizeCanvas(canvasContainer.clientWidth, canvasContainer.clientHeight);
 }
@@ -88,30 +89,11 @@ function windowResized() {
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Pong specific helper methods.
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Initialize new pong round.
-function initializeNewRound() {
-  // Create left and right player paddles based on optional control settings.
-  // Note: If both paddles use the keyboard, set right paddle UP/DONW control keys to "Q" and "A".
-  leftPlayer = createPlayer(playfieldOffset, leftController);
-  rightPlayer =
-    rightController == Controller.keyboard && leftController == Controller.keyboard
-      ? createPlayer(width - playfieldOffset, rightController, "q", "a")
-      : createPlayer(width - playfieldOffset, rightController);
-
-  // Create new ball object for every round.
-  ball = new Ball();
-
-  // Set game state and start round timer.
-  pong.isStarted = true;
-  pong.statusMessage = "";
-  roundStartTime = new Date();
-}
-
-// Create players.
-function createPlayer(paddleXPos, control, keyUp = UP_ARROW, keyDown = DOWN_ARROW) {
+// Create player objects reflecting given controller settings.
+function createPlayer(paddleXPos, controller, keyUp = UP_ARROW, keyDown = DOWN_ARROW) {
   let player;
 
-  switch (control) {
+  switch (controller) {
     case Controller.keyboard:
       player = new Player(paddleXPos, keyUp, keyDown);
       break;
@@ -132,32 +114,51 @@ function createPlayer(paddleXPos, control, keyUp = UP_ARROW, keyDown = DOWN_ARRO
   return player;
 }
 
-// Set controler settings from optional URL get parameter.
-function setControllerStatesFromUrlOrDefaults() {
-  let url = getURLParams();
-  // Left paddle control [computer|keyboard|mouse|touchpad] (default: keyboard).
-  leftController = Controller[url?.leftController?.toLowerCase()] || Controller.keyboard;
+// Initialize new pong round.
+function initializeNewRound() {
+  // Create left and right player paddles based on actual controller settings.
+  // Note: If both paddles use the keyboard, we move right paddle UP/DONW via "q" and "a" keys.
+  leftPlayer = createPlayer(playfieldOffset, leftController);
+  rightPlayer =
+    rightController == Controller.keyboard && leftController == Controller.keyboard
+      ? createPlayer(width - playfieldOffset, rightController, "q", "a")
+      : createPlayer(width - playfieldOffset, rightController);
 
-  // Right paddle control [computer|keyboard|mouse|touchpad] (default: computer).
-  rightController = Controller[url?.rightController?.toLowerCase()] || Controller.computer;
+  // Create new ball object.
+  ball = new Ball();
 
-  // Ensure only one human player is bound to a mouse control.
-  if (leftController == Controller.mouse && rightController == Controller.mouse) {
-    rightController = Controller.computer;
-  }
-
-  // Ensure only one human player is bound to touchpad (to be reworked later).
-  if (leftController == Controller.touchpad && rightController == Controller.touchpad) {
-    rightController = Controller.computer;
-  }
+  // Set game state and start round timer.
+  pong.isStarted = true;
+  pong.statusMessage = "";
+  roundStartTime = new Date();
 }
 
-// Toggle pause game state when pressing "p" or "P".
+// Toggle pause game state.
 function togglePauseState() {
   pong.isPaused = !pong.isPaused;
   if (pong.isPaused) {
     noLoop();
   } else {
     loop();
+  }
+}
+
+// Set controller states from optional URL get parameter or defaults.
+function setControllerStatesFromUrlOrDefaults() {
+  let url = getURLParams();
+  // Left paddle controller [computer|keyboard|mouse|touchpad] (default: keyboard).
+  leftController = Controller[url?.leftController?.toLowerCase()] || Controller.keyboard;
+
+  // Right paddle controller [computer|keyboard|mouse|touchpad] (default: computer).
+  rightController = Controller[url?.rightController?.toLowerCase()] || Controller.computer;
+
+  // Ensure only one human player is bound to a mouse controller.
+  if (leftController == Controller.mouse && rightController == Controller.mouse) {
+    rightController = Controller.computer;
+  }
+
+  // Ensure only one human player is bound to a touchpad controller (may be reworked later).
+  if (leftController == Controller.touchpad && rightController == Controller.touchpad) {
+    rightController = Controller.computer;
   }
 }

@@ -71,20 +71,20 @@ class Pong {
     let player1 = leftController == Controller.computer ? "Left 💻" : "Left 👤:";
     let player2 = rightController == Controller.computer ? "Right 💻" : "Right 👤:";
 
-    // Work out controls used for left and right player.
-    let control1 = leftController == Controller.mouse ? "Mouse" : "[⬆], [⬇]";
-    control1 = leftController == Controller.computer ? "" : control1;
+    // Work out controller settings used for left and right player.
+    let controller1 = leftController == Controller.mouse ? "Mouse" : "[⬆], [⬇]";
+    controller1 = leftController == Controller.computer ? "" : controller1;
 
-    let control2 =
+    let controller2 =
       rightController == Controller.mouse
         ? "Mouse"
         : leftController == Controller.computer || leftController == Controller.mouse
         ? "[⬆], [⬇]"
         : "[q]:Up, [a]:Down";
-    control2 = rightController == Controller.computer ? "" : control2;
+    controller2 = rightController == Controller.computer ? "" : controller2;
 
     // Build usage message.
-    let usageMessage = `${player1} ${control1}, ${player2} ${control2}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
+    let usageMessage = `${player1} ${controller1}, ${player2} ${controller2}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
 
     // Update usage message.
     fill(0);
