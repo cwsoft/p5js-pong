@@ -3,9 +3,8 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Global objects and states.
 const canvasContainer = document.getElementById("canvas-container");
-const playfieldOffset = 15;
+const paddlePlayfieldOffset = 15;
 let pong, sounds, ball, leftPlayer, leftController, rightPlayer, rightController;
-let roundStartTime = 0;
 
 // Supported paddle controller states.
 const Controller = {
@@ -56,7 +55,7 @@ function draw() {
 
     // Display ellapsed round time and actual ball speed.
     actualTime = new Date();
-    let ellapsedRoundTime = Math.round((actualTime - roundStartTime) / 1000);
+    let ellapsedRoundTime = Math.round((actualTime - pong.roundStartTime) / 1000);
     pong.statusMessage = "Ellapsed round time: " + ellapsedRoundTime + "s , Ball speed: " + ball.speed;
   } else {
     // Redraw paddles on last position if actual round was lost by any player.
@@ -68,7 +67,7 @@ function draw() {
 
 // Evaluate key events to start new round or pause actual round.
 function keyPressed() {
-  if (key === "p" || key === "P") togglePauseState();
+  if (key === "p" || key === "P") pong.pauseOrRestart();
   if (key === " " && !pong.isStarted) initializeNewRound();
 }
 
@@ -118,11 +117,11 @@ function createPlayer(paddleXPos, controller, keyUp = UP_ARROW, keyDown = DOWN_A
 function initializeNewRound() {
   // Create left and right player paddles based on actual controller settings.
   // Note: If both paddles use the keyboard, we move right paddle UP/DONW via "q" and "a" keys.
-  leftPlayer = createPlayer(playfieldOffset, leftController);
+  leftPlayer = createPlayer(paddlePlayfieldOffset, leftController);
   rightPlayer =
     rightController == Controller.keyboard && leftController == Controller.keyboard
-      ? createPlayer(width - playfieldOffset, rightController, "q", "a")
-      : createPlayer(width - playfieldOffset, rightController);
+      ? createPlayer(width - paddlePlayfieldOffset, rightController, "q", "a")
+      : createPlayer(width - paddlePlayfieldOffset, rightController);
 
   // Create new ball object.
   ball = new Ball();
@@ -130,17 +129,7 @@ function initializeNewRound() {
   // Set game state and start round timer.
   pong.isStarted = true;
   pong.statusMessage = "";
-  roundStartTime = new Date();
-}
-
-// Toggle pause game state.
-function togglePauseState() {
-  pong.isPaused = !pong.isPaused;
-  if (pong.isPaused) {
-    noLoop();
-  } else {
-    loop();
-  }
+  pong.roundStartTime = new Date();
 }
 
 // Set controller states from optional URL get parameter or defaults.

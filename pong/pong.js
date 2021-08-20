@@ -8,6 +8,7 @@ class Pong {
     // Public fields for now.
     this.isStarted = false;
     this.isPaused = false;
+    this.roundStartTime = 0;
 
     this.wallThickness = 40;
     this.topWallYPos = 0 + this.wallThickness;
@@ -38,6 +39,16 @@ class Pong {
     this._refreshPlayerScores();
     this._refreshStatusMessage();
     this._refreshUsageMessage();
+  }
+
+  // Pause or restart game.
+  pauseOrRestart() {
+    this.isPaused = !this.isPaused;
+    if (this.isPaused) {
+      noLoop();
+    } else {
+      loop();
+    }
   }
 
   // ---------------------------------------------------------------------------------------
