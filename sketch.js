@@ -3,7 +3,6 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Global objects and states.
 const canvasContainer = document.getElementById("canvas-container");
-const paddlePlayfieldOffset = 15;
 let pong, sounds, ball, leftPlayer, leftController, rightPlayer, rightController;
 
 // Supported paddle controller states.
@@ -117,11 +116,11 @@ function createPlayer(paddleXPos, controller, keyUp = UP_ARROW, keyDown = DOWN_A
 function initializeNewRound() {
   // Create left and right player paddles based on actual controller settings.
   // Note: If both paddles use the keyboard, we move right paddle UP/DONW via "q" and "a" keys.
-  leftPlayer = createPlayer(paddlePlayfieldOffset, leftController);
+  leftPlayer = createPlayer(pong.paddlePlayfieldXOffset, leftController);
   rightPlayer =
     rightController == Controller.keyboard && leftController == Controller.keyboard
-      ? createPlayer(width - paddlePlayfieldOffset, rightController, "q", "a")
-      : createPlayer(width - paddlePlayfieldOffset, rightController);
+      ? createPlayer(width - pong.paddlePlayfieldXOffset, rightController, "q", "a")
+      : createPlayer(width - pong.paddlePlayfieldXOffset, rightController);
 
   // Create new ball object.
   ball = new Ball();

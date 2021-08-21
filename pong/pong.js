@@ -10,6 +10,7 @@ class Pong {
     this.isPaused = false;
     this.roundStartTime = 0;
 
+    this.paddlePlayfieldXOffset = 15;
     this.wallThickness = 40;
     this.topWallYPos = 0 + this.wallThickness;
     this.bottomWallYPos = height - this.wallThickness;
