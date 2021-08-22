@@ -26,14 +26,22 @@ class Pong {
     return this._leftPlayerScore + this._rightPlayerScore;
   }
 
-  // Increase given players score and refresh display.
-  increaseScore(playerNbr) {
-    if (playerNbr == 1) this._leftPlayerScore++;
-    if (playerNbr == 2) this._rightPlayerScore++;
-    this._refreshPlayerScores();
+  // Setup new pong round.
+  setupNewRound() {
+    // Re(create) left and right player paddles and ball object.
+    leftPlayer = controller.createLeftPlayer();
+    rightPlayer = controller.createRightPlayer();
+    ball = new Ball();
+
+    // Initialize internal game state for new round.
+    pong.isStarted = true;
+    pong.isPaused = false;
+    pong.roundStartTime = new Date();
+    pong.ellapsedRoundTimeInSeconds = 0;
+    pong.ellapsedRoundTimeInSecondsAtPause = 0;
   }
 
-  // Draw playing field.
+  // Draw pong playing field.
   draw() {
     background(10, 50, 70);
     this._drawDashedCenterLine();
@@ -44,15 +52,7 @@ class Pong {
     this._refreshUsageMessage();
   }
 
-  updateRoundTimeAndBallSpeed() {
-    if (!this.isPaused) {
-      this.ellapsedRoundTimeInSeconds =
-        this.ellapsedRoundTimeInSecondsAtPause + Math.round((new Date() - pong.roundStartTime) / 1000);
-    }
-    this.statusMessage = "Ellapsed round time: " + this.ellapsedRoundTimeInSeconds + "s , Ball speed: " + ball.speed;
-  }
-
-  // Pause or restart game.
+  // Pause/restart actual round.
   pauseOrRestart() {
     if (!this.isStarted) return;
 
@@ -66,6 +66,22 @@ class Pong {
       this.roundStartTime = new Date();
       loop();
     }
+  }
+
+  // Update status message with actual total round play time and ball speed.
+  updateRoundTimeAndBallSpeed() {
+    if (!this.isPaused) {
+      this.ellapsedRoundTimeInSeconds =
+        this.ellapsedRoundTimeInSecondsAtPause + Math.round((new Date() - pong.roundStartTime) / 1000);
+    }
+    this.statusMessage = "Ellapsed round time: " + this.ellapsedRoundTimeInSeconds + "s , Ball speed: " + ball.speed;
+  }
+
+  // Increase given players score and refresh display.
+  increaseScore(playerNbr) {
+    if (playerNbr == 1) this._leftPlayerScore++;
+    if (playerNbr == 2) this._rightPlayerScore++;
+    this._refreshPlayerScores();
   }
 
   // ---------------------------------------------------------------------------------------
@@ -96,20 +112,20 @@ class Pong {
   // Refresh usage message.
   _refreshUsageMessage() {
     // Work out if players are human or computer.
-    let player1 = leftController == Controller.computer ? "Left 💻" : "Left 👤:";
-    let player2 = rightController == Controller.computer ? "Right 💻" : "Right 👤:";
+    let player1 = controller.left == ControllerOptions.computer ? "Left 💻" : "Left 👤:";
+    let player2 = controller.right == ControllerOptions.computer ? "Right 💻" : "Right 👤:";
 
     // Work out controller settings used for left and right player.
-    let controller1 = leftController == Controller.mouse ? "Mouse" : "[⬆], [⬇]";
-    controller1 = leftController == Controller.computer ? "" : controller1;
+    let controller1 = controller.left == ControllerOptions.mouse ? "Mouse" : "[⬆], [⬇]";
+    controller1 = controller.left == ControllerOptions.computer ? "" : controller1;
 
     let controller2 =
-      rightController == Controller.mouse
+      controller.right == ControllerOptions.mouse
         ? "Mouse"
-        : leftController == Controller.computer || leftController == Controller.mouse
+        : controller.left == ControllerOptions.computer || controller.left == ControllerOptions.mouse
         ? "[⬆], [⬇]"
         : "[q]:Up, [a]:Down";
-    controller2 = rightController == Controller.computer ? "" : controller2;
+    controller2 = controller.right == ControllerOptions.computer ? "" : controller2;
 
     // Build usage message.
     let usageMessage = `${player1} ${controller1}, ${player2} ${controller2}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
