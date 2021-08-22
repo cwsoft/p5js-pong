@@ -29,11 +29,11 @@ class Pong {
     ball = new Ball();
 
     // Initialize internal game state for new round.
-    pong.isStarted = true;
-    pong.isPaused = false;
-    pong.roundStartTime = new Date();
-    pong.ellapsedRoundTimeInSeconds = 0;
-    pong.ellapsedRoundTimeInSecondsAtPause = 0;
+    this.isStarted = true;
+    this.isPaused = false;
+    this.roundStartTime = new Date();
+    this.ellapsedRoundTimeInSeconds = 0;
+    this.ellapsedRoundTimeInSecondsAtPause = 0;
   }
 
   // Pause/restart actual round.
