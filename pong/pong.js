@@ -59,7 +59,6 @@ class Pong {
     this._drawWall(0 + this.wallThickness / 2);
     this._drawWall(height - this.wallThickness / 2);
     this._refreshPlayerScores();
-    this._updateRoundTimeAndBallSpeed();
     this._refreshStatusMessage();
     this._refreshUsageMessage();
     this._showPauseState();
@@ -106,6 +105,10 @@ class Pong {
     fill(0);
     textSize(20);
     textAlign(CENTER);
+
+    // Update status message with ellapsed round time and actual ball speed.
+    this._updateRoundTimeAndBallSpeed();
+
     text(this.statusMessage, width / 2, this.topWallYPos - this.wallThickness / 2 + 5);
   }
 
