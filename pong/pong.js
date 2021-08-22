@@ -26,9 +26,9 @@ class Pong {
     return this._leftPlayerScore + this._rightPlayerScore;
   }
 
-  // Setup new pong round.
-  setupNewRound() {
-    // Re(create) left and right player paddles and ball object.
+  // Start new pong round.
+  newRound() {
+    // Recreate game objects to force defined start values for new round.
     leftPlayer = controller.createLeftPlayer();
     rightPlayer = controller.createRightPlayer();
     ball = new Ball();
@@ -41,19 +41,8 @@ class Pong {
     pong.ellapsedRoundTimeInSecondsAtPause = 0;
   }
 
-  // Draw pong playing field.
-  draw() {
-    background(10, 50, 70);
-    this._drawDashedCenterLine();
-    this._drawWall(0 + this.wallThickness / 2);
-    this._drawWall(height - this.wallThickness / 2);
-    this._refreshPlayerScores();
-    this._refreshStatusMessage();
-    this._refreshUsageMessage();
-  }
-
   // Pause/restart actual round.
-  pauseOrRestart() {
+  pauseRound() {
     if (!this.isStarted) return;
 
     this.isPaused = !this.isPaused;
@@ -68,13 +57,16 @@ class Pong {
     }
   }
 
-  // Update status message with actual total round play time and ball speed.
-  updateRoundTimeAndBallSpeed() {
-    if (!this.isPaused) {
-      this.ellapsedRoundTimeInSeconds =
-        this.ellapsedRoundTimeInSecondsAtPause + Math.round((new Date() - pong.roundStartTime) / 1000);
-    }
-    this.statusMessage = "Ellapsed round time: " + this.ellapsedRoundTimeInSeconds + "s , Ball speed: " + ball.speed;
+  // Draw playing field and status messages.
+  draw() {
+    background(10, 50, 70);
+    this._drawDashedCenterLine();
+    this._drawWall(0 + this.wallThickness / 2);
+    this._drawWall(height - this.wallThickness / 2);
+    this._refreshPlayerScores();
+    this._updateRoundTimeAndBallSpeed();
+    this._refreshStatusMessage();
+    this._refreshUsageMessage();
   }
 
   // Increase given players score and refresh display.
@@ -107,6 +99,20 @@ class Pong {
     textSize(20);
     textAlign(CENTER);
     text(this.statusMessage, width / 2, this.topWallYPos - this.wallThickness / 2 + 5);
+  }
+
+  // Update status message with actual total round play time and ball speed.
+  _updateRoundTimeAndBallSpeed() {
+    if (!this.isStarted) return;
+
+    // Calculate ellapsed round playing time.
+    if (!this.isPaused) {
+      this.ellapsedRoundTimeInSeconds =
+        this.ellapsedRoundTimeInSecondsAtPause + Math.round((new Date() - pong.roundStartTime) / 1000);
+    }
+
+    // Update status message with ellapsed round time and actual ball speed.
+    this.statusMessage = "Ellapsed round time: " + this.ellapsedRoundTimeInSeconds + "s , Ball speed: " + ball.speed;
   }
 
   // Refresh usage message.

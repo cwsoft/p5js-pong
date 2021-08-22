@@ -1,12 +1,11 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Some global variables.
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Global play objects.
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 const canvasContainer = document.getElementById("canvas-container");
 let pong, sounds, ball, controller, leftPlayer, rightPlayer;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// P5 global event handlers.
+// Global p5js event handler callbacks.
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Preload sound effects.
 function preload() {
@@ -17,7 +16,7 @@ function preload() {
   };
 }
 
-// Setup p5 canvas and reset p5js defaults.
+// Setup p5js canvas, reset defaults and initialize global game objects.
 function setup() {
   let canvas = createCanvas(canvasContainer.clientWidth, canvasContainer.clientHeight);
   canvas.parent("canvas-container");
@@ -26,24 +25,24 @@ function setup() {
   ellipseMode(CENTER);
   noStroke();
 
-  // Create the global game objects.
+  // Initialize the global game objects.
   pong = new Pong();
+  ball = new Ball();
   controller = new PaddleController();
   leftPlayer = controller.createLeftPlayer();
   rightPlayer = controller.createRightPlayer();
 }
 
-// Update game state on every frame rate.
+// Update game state every frame.
 function draw() {
-  // (Re)draw Pong playfield.
+  // Refresh pong playfield.
   pong.draw();
 
   if (pong.isStarted) {
-    // Only move ball and paddles if game round was started.
+    // Only update game objects if game round was started.
     ball.move();
     leftPlayer.move();
     rightPlayer.move();
-    pong.updateRoundTimeAndBallSpeed();
   } else {
     // Prevent paddles from disappering once a player won/lost the actual round.
     leftPlayer.draw();
@@ -53,14 +52,14 @@ function draw() {
 
 // Evaluate key events to start new round or pause actual round.
 function keyPressed() {
-  if (key === "p" || key === "P") pong.pauseOrRestart();
-  if (key === " " && !pong.isStarted) pong.setupNewRound();
+  if (key === "p" || key === "P") pong.pauseRound();
+  if (key === " " && !pong.isStarted) pong.newRound();
 }
 
 // Evaluate touch events to start new round.
 function touchStarted() {
   if (!pong.isStarted) {
-    // Simulate pressing SPACE key so we can start the game via a touch geasture.
+    // Simulate SPACE key to start the game on touch only devices.
     key = " ";
     keyPressed();
   }
