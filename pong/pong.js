@@ -62,6 +62,7 @@ class Pong {
     this._updateRoundTimeAndBallSpeed();
     this._refreshStatusMessage();
     this._refreshUsageMessage();
+    this._showPauseState();
   }
 
   // Increase given players score and refresh display.
@@ -84,6 +85,18 @@ class Pong {
     text(this._leftPlayerScore, width / 2 - 30, this.topWallYPos + 50);
     textAlign(LEFT);
     text(this._rightPlayerScore, width / 2 + 30, this.topWallYPos + 50);
+
+    textStyle(NORMAL);
+  }
+
+  // Show pause status if needed.
+  _showPauseState() {
+    if (!this.isPaused) return;
+
+    fill(0, 255, 0);
+    textSize(30);
+    textStyle(BOLD);
+    text("Game paused. Press 'p' to continue.", width / 2, height / 2);
 
     textStyle(NORMAL);
   }
