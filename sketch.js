@@ -1,6 +1,7 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Some global variables.
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Global play objects.
 // Global objects and states.
 const canvasContainer = document.getElementById("canvas-container");
 let pong, sounds, ball, leftPlayer, leftController, rightPlayer, rightController;
@@ -37,13 +38,13 @@ function setup() {
   // Set paddle controller states based on optional URL parameter or defaults.
   setControllerStatesFromUrlOrDefaults();
 
-  // Create Pong game objects.
+  // Create Pong object.
   pong = new Pong();
 }
 
 // Update game state on every frame rate.
 function draw() {
-  // Redraw Pong playfield.
+  // (Re)draw Pong playfield.
   pong.draw();
 
   if (pong.isStarted) {
@@ -51,11 +52,7 @@ function draw() {
     ball.move();
     leftPlayer.move();
     rightPlayer.move();
-
-    // Display ellapsed round time and actual ball speed.
-    actualTime = new Date();
-    let ellapsedRoundTime = Math.round((actualTime - pong.roundStartTime) / 1000);
-    pong.statusMessage = "Ellapsed round time: " + ellapsedRoundTime + "s , Ball speed: " + ball.speed;
+    pong.updateRoundTimeAndBallSpeed();
   } else {
     // Redraw paddles on last position if actual round was lost by any player.
     // Otherwise the paddles would disappear once a player won a round.
@@ -125,10 +122,12 @@ function initializeNewRound() {
   // Create new ball object.
   ball = new Ball();
 
-  // Set game state and start round timer.
+  // Initialize internal game state for new round.
   pong.isStarted = true;
-  pong.statusMessage = "";
+  pong.isPaused = false;
   pong.roundStartTime = new Date();
+  pong.ellapsedRoundTimeInSeconds = 0;
+  pong.ellapsedRoundTimeInSecondsAtPause = 0;
 }
 
 // Set controller states from optional URL get parameter or defaults.

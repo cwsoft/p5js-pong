@@ -9,6 +9,8 @@ class Pong {
     this.isStarted = false;
     this.isPaused = false;
     this.roundStartTime = 0;
+    this.ellapsedRoundTimeInSeconds = 0;
+    this.ellapsedRoundTimeInSecondsAtPause = 0;
 
     this.paddlePlayfieldXOffset = 15;
     this.wallThickness = 40;
@@ -42,12 +44,26 @@ class Pong {
     this._refreshUsageMessage();
   }
 
+  updateRoundTimeAndBallSpeed() {
+    if (!this.isPaused) {
+      this.ellapsedRoundTimeInSeconds =
+        this.ellapsedRoundTimeInSecondsAtPause + Math.round((new Date() - pong.roundStartTime) / 1000);
+    }
+    this.statusMessage = "Ellapsed round time: " + this.ellapsedRoundTimeInSeconds + "s , Ball speed: " + ball.speed;
+  }
+
   // Pause or restart game.
   pauseOrRestart() {
+    if (!this.isStarted) return;
+
     this.isPaused = !this.isPaused;
     if (this.isPaused) {
+      // Store ellapsed playtime before game was paused.
+      this.ellapsedRoundTimeInSecondsAtPause = this.ellapsedRoundTimeInSeconds;
       noLoop();
     } else {
+      // Reset round time when game is restarted.
+      this.roundStartTime = new Date();
       loop();
     }
   }
