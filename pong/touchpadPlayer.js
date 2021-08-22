@@ -1,5 +1,5 @@
 // Class to draw and move player paddle on the playfield using a touch device.
-class TouchpadPlayer extends Player {
+class TouchpadPlayer extends KeyboardPlayer {
   constructor(paddleXCenter, keyUp = null, keyDown = null, paddleHeight = 75) {
     super(paddleXCenter, keyUp, keyDown, paddleHeight);
   }

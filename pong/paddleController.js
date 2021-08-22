@@ -54,7 +54,7 @@ class PaddleController {
 
     switch (controller) {
       case ControllerOptions.keyboard:
-        player = new Player(paddleXPos, keyUp, keyDown);
+        player = new KeyboardPlayer(paddleXPos, keyUp, keyDown);
         break;
 
       case ControllerOptions.mouse:

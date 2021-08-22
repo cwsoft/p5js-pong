@@ -1,5 +1,5 @@
 // Class to draw and move players paddle on the playfield.
-class Player {
+class KeyboardPlayer {
   constructor(paddleXCenter, keyUp = UP_ARROW, keyDown = DOWN_ARROW, paddleHeight = 75) {
     // Store key codes to move paddle of each player.
     if (typeof keyUp === "string") keyUp = keyUp.toUpperCase().charCodeAt(0);
