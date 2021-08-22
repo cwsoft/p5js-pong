@@ -21,11 +21,6 @@ class Pong {
     this.statusMessage = "p5js-Pong – Press [SPACE] to start new round.";
   }
 
-  // Get total score of left and right player.
-  get totalScore() {
-    return this._leftPlayerScore + this._rightPlayerScore;
-  }
-
   // Start new pong round.
   newRound() {
     // Recreate game objects to force defined start values for new round.
