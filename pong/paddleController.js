@@ -12,14 +12,14 @@ class PaddleController {
     this.getSettingsFromUrlOrDefaults();
   }
 
-  // Set controller states from optional URL get parameter or defaults.
+  // Set controller states from optional URL get parameter (leftPaddle, rightPaddle) or defaults.
   getSettingsFromUrlOrDefaults(left = ControllerOptions.keyboard, right = ControllerOptions.computer) {
     let url = getURLParams();
     // Left paddle controller [computer|keyboard|mouse|touchpad] (default: keyboard).
-    this.left = ControllerOptions[url?.leftController?.toLowerCase()] || left;
+    this.left = ControllerOptions[url?.leftPaddle?.toLowerCase()] || left;
 
     // Right paddle controller [computer|keyboard|mouse|touchpad] (default: computer).
-    this.right = ControllerOptions[url?.rightController?.toLowerCase()] || right;
+    this.right = ControllerOptions[url?.rightPaddle?.toLowerCase()] || right;
 
     // Ensure only one human player is bound to a mouse controller.
     if (this.left == ControllerOptions.mouse && this.right == ControllerOptions.mouse) {

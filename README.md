@@ -9,20 +9,19 @@ Browser implementation of the old Arcade game Pong using the great [p5js](https:
 Thanks to Github Pages, you can try out different Pong variations in your browser on the fly:
 
 - [human vs. computer](https://cwsoft.github.io/p5js-pong/) human paddle moved via keyboard
-- [human vs. human](https://cwsoft.github.io/p5js-pong/?leftController=keyboard&rightController=keyboard) both paddles moved via keyboard
-- [human touchpad vs. computer](https://cwsoft.github.io/p5js-pong/?leftController=touchpad) human paddle moved via touchpad
-- [human mouse vs. computer](https://cwsoft.github.io/p5js-pong/?leftController=mouse) human paddle moved via mouse
-- [computer vs. computer](https://cwsoft.github.io/p5js-pong/?leftController=computer&rightController=computer) just watch
+- [human vs. human](https://cwsoft.github.io/p5js-pong/?leftPaddle=keyboard&rightPaddle=keyboard) both paddles moved via keyboard
+- [human touchpad vs. computer](https://cwsoft.github.io/p5js-pong/?leftPaddle=touchpad) human paddle moved via touchpad
+- [human mouse vs. computer](https://cwsoft.github.io/p5js-pong/?leftPaddle=mouse) human paddle moved via mouse
+- [computer vs. computer](https://cwsoft.github.io/p5js-pong/?leftPaddle=computer&rightPaddle=computer) just watch
 
 ## Basic Usage
 
 1.  Browse main `index.html` with a modern browser (e.g. Firefox, Chrome).
 2.  Press `SPACE` or touch on screen to start a new round, `P` to pause the game or `F5` to start from scratch.
 3.  Paddles are moved with keyboard `CURSOR_UP`, `CURSOR_DOWN`, respective `q` (UP) and `a` (DOWN) by default.
-4.  Defaults can be overwritten by adding optional GET parameters to `index.html` URL:
-    - `?leftController=computer|keyboard|mouse|touchpad`
-    - `?rightController=computer|keyboard|mouse|touchpad`
-    - Example: https://cwsoft.github.io/p5js-pong/?leftControl=mouse&rightPaddle=computer
+4.  Defaults can be overwritten by adding optional GET parameters `leftPaddle` and/or `rightPaddle` to main index URL:
+    - `?leftPaddle=computer|keyboard|mouse|touchpad`
+    - `?rightPaddle=computer|keyboard|mouse|touchpad`
     - Note: Not all possible variations are supported, just the most common ones
 
 ## Known Limitations
