@@ -2,14 +2,14 @@
 // Global play objects.
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 const canvasContainer = document.getElementById("canvas-container");
-let pong, sounds, ball, controller, leftPaddle, rightPaddle;
+let pong, sound, ball, controller, leftPaddle, rightPaddle;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Global p5js event handler callbacks.
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Preload sound effects.
 function preload() {
-  sounds = {
+  sound = {
     hitWall: loadSound("./sounds/hit-wall.wav"),
     hitPaddle: loadSound("./sounds/hit-paddle.wav"),
     increasePlayerScore: loadSound("./sounds/increase-score.wav"),

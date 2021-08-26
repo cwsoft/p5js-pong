@@ -71,7 +71,7 @@ class Pong {
 
     // Increase score and play sound.
     this._refreshPlayerScores();
-    sounds.increasePlayerScore.play();
+    sound.increasePlayerScore.play();
 
     // Pause actual round and wait for SPACE key to start new round.
     pong.isStarted = false;

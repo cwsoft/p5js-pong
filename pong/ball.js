@@ -35,21 +35,21 @@ class Ball {
       // Reflect ball from playfield walls.
       let normalVector = createVector(0, -1);
       this.setVelocity(this.velocity.reflect(normalVector), this.speed);
-      sounds.hitWall.play();
+      sound.hitWall.play();
     } else if (this._checkleftPaddleCollision()) {
       // Reflect ball with artificial angle mapped to paddle y hit position.
       let pannelHitFraction = (this.position.y - leftPaddle.position.y) / leftPaddle.height;
       let deflectionAngle = map(pannelHitFraction, -0.5, 0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
       this.setVelocity(deflectionVector, this.speed + this.speedIncrement);
-      sounds.hitPaddle.play();
+      sound.hitPaddle.play();
     } else if (this._checkrightPaddleCollision()) {
       // Reflect ball with artificial angle mapped to paddle y hit position.
       let pannelHitFraction = (this.position.y - rightPaddle.position.y) / rightPaddle.height;
       let deflectionAngle = map(pannelHitFraction, 0.5, -0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
       this.setVelocity(deflectionVector.mult(-1), this.speed + this.speedIncrement);
-      sounds.hitPaddle.play();
+      sound.hitPaddle.play();
     } else if (this.position.x + this.width / 2 >= width) {
       // Ball hits right players side, increase left players score.
       pong.increasePlayerScore(1);
