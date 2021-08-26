@@ -1,5 +1,5 @@
 // Public enum with possible controller options.
-const ControllerOptions = {
+const PaddleOptions = {
   computer: 1,
   keyboard: 2,
   mouse: 3,
@@ -13,22 +13,22 @@ class PaddleController {
   }
 
   // Set controller states from optional URL get parameter (leftPaddle, rightPaddle) or defaults.
-  getSettingsFromUrlOrDefaults(left = ControllerOptions.keyboard, right = ControllerOptions.computer) {
+  getSettingsFromUrlOrDefaults(left = PaddleOptions.keyboard, right = PaddleOptions.computer) {
     let url = getURLParams();
     // Left paddle controller [computer|keyboard|mouse|touchpad] (default: keyboard).
-    this.left = ControllerOptions[url?.leftPaddle?.toLowerCase()] || left;
+    this.left = PaddleOptions[url?.leftPaddle?.toLowerCase()] || left;
 
     // Right paddle controller [computer|keyboard|mouse|touchpad] (default: computer).
-    this.right = ControllerOptions[url?.rightPaddle?.toLowerCase()] || right;
+    this.right = PaddleOptions[url?.rightPaddle?.toLowerCase()] || right;
 
     // Ensure only one human player is bound to a mouse controller.
-    if (this.left == ControllerOptions.mouse && this.right == ControllerOptions.mouse) {
-      this.right = ControllerOptions.computer;
+    if (this.left == PaddleOptions.mouse && this.right == PaddleOptions.mouse) {
+      this.right = PaddleOptions.computer;
     }
 
     // Ensure only one human player is bound to a touchpad controller (may be reworked later).
-    if (this.left == ControllerOptions.touchpad && this.right == ControllerOptions.touchpad) {
-      this.right = ControllerOptions.computer;
+    if (this.left == PaddleOptions.touchpad && this.right == PaddleOptions.touchpad) {
+      this.right = PaddleOptions.computer;
     }
   }
 
@@ -40,7 +40,7 @@ class PaddleController {
   // Create right player object depending on controller settings.
   createRightPaddle(xPosition = width - pong.paddlePlayfieldXOffset, height = 75) {
     // If both paddles use the keyboard, we move right paddle UP/DONW via "q" and "a" keys.
-    return this.right == ControllerOptions.keyboard && this.left == ControllerOptions.keyboard
+    return this.right == PaddleOptions.keyboard && this.left == PaddleOptions.keyboard
       ? this._paddleFactory(controller.right, xPosition, height, "q", "a")
       : this._paddleFactory(controller.right, xPosition, height);
   }
@@ -53,15 +53,15 @@ class PaddleController {
     let player;
 
     switch (controller) {
-      case ControllerOptions.keyboard:
+      case PaddleOptions.keyboard:
         player = new KeyboardPaddle(xPosition, height, keyUp, keyDown);
         break;
 
-      case ControllerOptions.mouse:
+      case PaddleOptions.mouse:
         player = new MousePaddle(xPosition, height, null, null);
         break;
 
-      case ControllerOptions.touchpad:
+      case PaddleOptions.touchpad:
         player = new TouchpadPaddle(xPosition, height, null, null);
         break;
 

@@ -1,5 +1,5 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Global play objects.
+// Global game objects.
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 const canvasContainer = document.getElementById("canvas-container");
 let pong, sound, ball, controller, leftPaddle, rightPaddle;
@@ -57,7 +57,16 @@ function keyPressed() {
 // Evaluate touch events to start new round.
 function touchStarted() {
   if (!pong.isStarted) {
-    // Simulate SPACE key to start the game on touch only devices.
+    // Simulate SPACE key to start new round on touch only devices.
+    key = " ";
+    keyPressed();
+  }
+}
+
+// Evaluate mouse press events to start new round.
+function mouseClicked() {
+  if (!pong.isStarted) {
+    // Simulate SPACE key to start new round when mouse is clicked.
     key = " ";
     keyPressed();
   }
