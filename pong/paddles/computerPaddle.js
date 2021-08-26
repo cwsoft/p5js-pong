@@ -1,14 +1,14 @@
 // Class to draw and move computer paddle on the playfield.
-class ComputerPlayer extends KeyboardPlayer {
-  constructor(paddleXCenter, keyUp = null, keyDown = null, paddleHeight = 75) {
-    super(paddleXCenter, keyUp, keyDown, paddleHeight);
+class ComputerPaddle extends KeyboardPaddle {
+  constructor(xPosition, height = 75, keyUp = null, keyDown = null) {
+    super(xPosition, height, keyUp, keyDown);
     this.movingThreshold = 0.4;
   }
 
   // Move computer paddle based on balls y-position.
   move() {
     // Check if computer paddle is placed on left or right playfield side.
-    let paddleIsOnLeftSide = this.paddleXCenter <= width / 2;
+    let paddleIsOnLeftSide = this.xPosition <= width / 2;
     let paddleIsOnRightSide = !paddleIsOnLeftSide;
 
     // Fraction of screen width ball needs to pass before computer paddle is allowed to move.

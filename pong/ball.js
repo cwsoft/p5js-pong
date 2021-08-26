@@ -36,31 +36,27 @@ class Ball {
       let normalVector = createVector(0, -1);
       this.setVelocity(this.velocity.reflect(normalVector), this.speed);
       sounds.hitWall.play();
-    } else if (this._checkLeftPlayerCollision()) {
+    } else if (this._checkleftPaddleCollision()) {
       // Reflect ball with artificial angle mapped to paddle y hit position.
-      let pannelHitFraction = (this.position.y - leftPlayer.position.y) / leftPlayer.height;
+      let pannelHitFraction = (this.position.y - leftPaddle.position.y) / leftPaddle.height;
       let deflectionAngle = map(pannelHitFraction, -0.5, 0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
       this.setVelocity(deflectionVector, this.speed + this.speedIncrement);
       sounds.hitPaddle.play();
-    } else if (this._checkRightPlayerCollision()) {
+    } else if (this._checkrightPaddleCollision()) {
       // Reflect ball with artificial angle mapped to paddle y hit position.
-      let pannelHitFraction = (this.position.y - rightPlayer.position.y) / rightPlayer.height;
+      let pannelHitFraction = (this.position.y - rightPaddle.position.y) / rightPaddle.height;
       let deflectionAngle = map(pannelHitFraction, 0.5, -0.5, -30, 30);
       let deflectionVector = p5.Vector.fromAngle(radians(deflectionAngle));
       this.setVelocity(deflectionVector.mult(-1), this.speed + this.speedIncrement);
       sounds.hitPaddle.play();
     } else if (this.position.x + this.width / 2 >= width) {
       // Ball hits right players side, increase left players score.
-      pong.increaseScore(1);
-      pong.isStarted = false;
-      sounds.increaseScore.play();
+      pong.increasePlayerScore(1);
       return;
     } else if (this.position.x - this.width / 2 <= 0) {
       // Ball hits left players side, increase right players score.
-      pong.increaseScore(2);
-      pong.isStarted = false;
-      sounds.increaseScore.play();
+      pong.increasePlayerScore(2);
       return;
     }
 
@@ -81,20 +77,20 @@ class Ball {
   }
 
   // Check collision with left players paddle.
-  _checkLeftPlayerCollision() {
+  _checkleftPaddleCollision() {
     return (
-      this.position.x - this.width / 2 <= leftPlayer.position.x + leftPlayer.width / 2 &&
-      this.position.y >= leftPlayer.position.y - leftPlayer.height / 2 &&
-      this.position.y <= leftPlayer.position.y + leftPlayer.height / 2
+      this.position.x - this.width / 2 <= leftPaddle.position.x + leftPaddle.width / 2 &&
+      this.position.y >= leftPaddle.position.y - leftPaddle.height / 2 &&
+      this.position.y <= leftPaddle.position.y + leftPaddle.height / 2
     );
   }
 
   // Check collision with right players paddle.
-  _checkRightPlayerCollision() {
+  _checkrightPaddleCollision() {
     return (
-      this.position.x + this.width / 2 >= rightPlayer.position.x - rightPlayer.width / 2 &&
-      this.position.y >= rightPlayer.position.y - rightPlayer.height / 2 &&
-      this.position.y <= rightPlayer.position.y + rightPlayer.height / 2
+      this.position.x + this.width / 2 >= rightPaddle.position.x - rightPaddle.width / 2 &&
+      this.position.y >= rightPaddle.position.y - rightPaddle.height / 2 &&
+      this.position.y <= rightPaddle.position.y + rightPaddle.height / 2
     );
   }
 }

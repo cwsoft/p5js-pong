@@ -5,10 +5,10 @@
     "c:\\Users\\csommer\\.vscode\\extensions\\samplavigne.p5-vscode-1.2.6\\p5types\\global.d.ts",
     "pong/pong.js",
     "pong/paddleController.js",
-    "pong/keyboardPlayer.js",
-    "pong/computerPlayer.js",
-    "pong/mousePlayer.js",
-    "pong/touchpadPlayer.js",
+    "pong/paddles/keyboardPaddle.js",
+    "pong/paddles/computerPaddle.js",
+    "pong/paddles/mousePaddle.js",
+    "pong/paddles/touchpadPaddle.js",
     "pong/ball.js"
   ]
 }

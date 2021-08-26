@@ -24,8 +24,8 @@ class Pong {
   // Start new pong round.
   newRound() {
     // Recreate game objects to force defined start values for new round.
-    leftPlayer = controller.createLeftPlayer();
-    rightPlayer = controller.createRightPlayer();
+    leftPaddle = controller.createLeftPaddle();
+    rightPaddle = controller.createRightPaddle();
     ball = new Ball();
 
     // Initialize internal game state for new round.
@@ -65,10 +65,16 @@ class Pong {
   }
 
   // Increase given players score and refresh display.
-  increaseScore(playerNbr) {
+  increasePlayerScore(playerNbr) {
     if (playerNbr == 1) this._leftPlayerScore++;
     if (playerNbr == 2) this._rightPlayerScore++;
+
+    // Increase score and play sound.
     this._refreshPlayerScores();
+    sounds.increasePlayerScore.play();
+
+    // Pause actual round and wait for SPACE key to start new round.
+    pong.isStarted = false;
   }
 
   // ---------------------------------------------------------------------------------------

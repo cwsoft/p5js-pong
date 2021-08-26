@@ -22,7 +22,7 @@ Thanks to Github Pages, you can try out different Pong variations in your browse
 4.  Defaults can be overwritten by adding optional GET parameters to `index.html` URL:
     - `?leftController=computer|keyboard|mouse|touchpad`
     - `?rightController=computer|keyboard|mouse|touchpad`
-    - Example: https://cwsoft.github.io/p5js-pong/?leftControl=mouse&rightPlayer=computer
+    - Example: https://cwsoft.github.io/p5js-pong/?leftControl=mouse&rightPaddle=computer
     - Note: Not all possible variations are supported, just the most common ones
 
 ## Known Limitations

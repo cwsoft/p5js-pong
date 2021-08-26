@@ -2,7 +2,7 @@
 // Global play objects.
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 const canvasContainer = document.getElementById("canvas-container");
-let pong, sounds, ball, controller, leftPlayer, rightPlayer;
+let pong, sounds, ball, controller, leftPaddle, rightPaddle;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Global p5js event handler callbacks.
@@ -12,7 +12,7 @@ function preload() {
   sounds = {
     hitWall: loadSound("./sounds/hit-wall.wav"),
     hitPaddle: loadSound("./sounds/hit-paddle.wav"),
-    increaseScore: loadSound("./sounds/increase-score.wav"),
+    increasePlayerScore: loadSound("./sounds/increase-score.wav"),
   };
 }
 
@@ -25,28 +25,26 @@ function setup() {
   ellipseMode(CENTER);
   noStroke();
 
-  // Initialize the global game objects.
+  // Initialize global game objects.
   pong = new Pong();
   ball = new Ball();
   controller = new PaddleController();
-  leftPlayer = controller.createLeftPlayer();
-  rightPlayer = controller.createRightPlayer();
+  leftPaddle = controller.createLeftPaddle();
+  rightPaddle = controller.createRightPaddle();
 }
 
 // Update game state every frame.
 function draw() {
-  // Refresh pong playfield.
   pong.draw();
 
   if (pong.isStarted) {
-    // Only update game objects if game round was started.
     ball.move();
-    leftPlayer.move();
-    rightPlayer.move();
+    leftPaddle.move();
+    rightPaddle.move();
   } else {
-    // Prevent paddles from disappering once a player won/lost the actual round.
-    leftPlayer.draw();
-    rightPlayer.draw();
+    // Show paddles at startup and redraw paddles once a player won/lost actual round.
+    leftPaddle.draw();
+    rightPaddle.draw();
   }
 }
 

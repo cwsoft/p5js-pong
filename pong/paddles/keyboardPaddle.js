@@ -1,6 +1,6 @@
 // Class to draw and move players paddle on the playfield.
-class KeyboardPlayer {
-  constructor(paddleXCenter, keyUp = UP_ARROW, keyDown = DOWN_ARROW, paddleHeight = 75) {
+class KeyboardPaddle {
+  constructor(xPosition, height = 75, keyUp = UP_ARROW, keyDown = DOWN_ARROW) {
     // Store key codes to move paddle of each player.
     if (typeof keyUp === "string") keyUp = keyUp.toUpperCase().charCodeAt(0);
     this.keyCodeUp = keyUp;
@@ -8,8 +8,8 @@ class KeyboardPlayer {
     this.keyCodeDown = keyDown;
 
     // Paddle object position, size and speed (could be configured via options object).
-    this.paddleXCenter = paddleXCenter;
-    this.height = paddleHeight;
+    this.xPosition = xPosition;
+    this.height = height;
     this.width = 10;
     this.speed = 10;
 
@@ -55,7 +55,7 @@ class KeyboardPlayer {
 
   // Create paddle and place it in the middle of the players border.
   _createPaddle() {
-    this.position = createVector(this.paddleXCenter, height / 2);
+    this.position = createVector(this.xPosition, height / 2);
     this.setVelocity(createVector(0, 0), this.speed);
   }
 }

@@ -33,40 +33,40 @@ class PaddleController {
   }
 
   // Create left player depending on controller settings.
-  createLeftPlayer(paddleXPosition = pong.paddlePlayfieldXOffset) {
-    return this._playerFactory(paddleXPosition, this.left);
+  createLeftPaddle(xPosition = pong.paddlePlayfieldXOffset, height = 75) {
+    return this._paddleFactory(this.left, xPosition, height);
   }
 
   // Create right player object depending on controller settings.
-  createRightPlayer(paddleXPosition = width - pong.paddlePlayfieldXOffset) {
+  createRightPaddle(xPosition = width - pong.paddlePlayfieldXOffset, height = 75) {
     // If both paddles use the keyboard, we move right paddle UP/DONW via "q" and "a" keys.
     return this.right == ControllerOptions.keyboard && this.left == ControllerOptions.keyboard
-      ? this._playerFactory(paddleXPosition, controller.right, "q", "a")
-      : this._playerFactory(paddleXPosition, controller.right);
+      ? this._paddleFactory(controller.right, xPosition, height, "q", "a")
+      : this._paddleFactory(controller.right, xPosition, height);
   }
 
   // ---------------------------------------------------------------------------------------
   // Belows API should be treated as private API.
   // ---------------------------------------------------------------------------------------
-  // Create player objects reflecting given controller settings.
-  _playerFactory(paddleXPos, controller, keyUp = UP_ARROW, keyDown = DOWN_ARROW) {
+  // Create paddle objects reflecting given controller settings.
+  _paddleFactory(controller, xPosition, height, keyUp = UP_ARROW, keyDown = DOWN_ARROW) {
     let player;
 
     switch (controller) {
       case ControllerOptions.keyboard:
-        player = new KeyboardPlayer(paddleXPos, keyUp, keyDown);
+        player = new KeyboardPaddle(xPosition, height, keyUp, keyDown);
         break;
 
       case ControllerOptions.mouse:
-        player = new MousePlayer(paddleXPos, null, null);
+        player = new MousePaddle(xPosition, height, null, null);
         break;
 
       case ControllerOptions.touchpad:
-        player = new TouchpadPlayer(paddleXPos, null, null);
+        player = new TouchpadPaddle(xPosition, height, null, null);
         break;
 
       default:
-        player = new ComputerPlayer(paddleXPos, null, null);
+        player = new ComputerPaddle(xPosition, height, null, null);
         break;
     }
 
