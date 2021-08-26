@@ -9,11 +9,11 @@ const PaddleOptions = {
 // Class to retrieve and store the paddle controller settings.
 class PaddleController {
   constructor() {
-    this.getSettingsFromUrlOrDefaults();
+    this.getPaddleSettings();
   }
 
   // Set controller states from optional URL get parameter (leftPaddle, rightPaddle) or defaults.
-  getSettingsFromUrlOrDefaults(left = PaddleOptions.keyboard, right = PaddleOptions.computer) {
+  getPaddleSettings(left = PaddleOptions.keyboard, right = PaddleOptions.computer) {
     let url = getURLParams();
     // Left paddle controller [computer|keyboard|mouse|touchpad] (default: keyboard).
     this.left = PaddleOptions[url?.leftPaddle?.toLowerCase()] || left;
