@@ -1,4 +1,4 @@
-// Class to draw and move players paddle on the playfield.
+// Class to draw and move paddle with the keyboard.
 class KeyboardPaddle {
   constructor(xPosition, height = 75, keyUp = UP_ARROW, keyDown = DOWN_ARROW) {
     // Store key codes to move paddle of each player.

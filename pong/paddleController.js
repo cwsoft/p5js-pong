@@ -32,12 +32,12 @@ class PaddleController {
     }
   }
 
-  // Create left player depending on controller settings.
+  // Create left paddle depending on controller settings.
   createLeftPaddle(xPosition = pong.paddlePlayfieldXOffset, height = 75) {
     return this._paddleFactory(this.left, xPosition, height);
   }
 
-  // Create right player object depending on controller settings.
+  // Create right paddle object depending on controller settings.
   createRightPaddle(xPosition = width - pong.paddlePlayfieldXOffset, height = 75) {
     // If both paddles use the keyboard, we move right paddle UP/DONW via "q" and "a" keys.
     return this.right == PaddleOptions.keyboard && this.left == PaddleOptions.keyboard
@@ -50,26 +50,26 @@ class PaddleController {
   // ---------------------------------------------------------------------------------------
   // Create paddle objects reflecting given controller settings.
   _paddleFactory(controller, xPosition, height, keyUp = UP_ARROW, keyDown = DOWN_ARROW) {
-    let player;
+    let paddle;
 
     switch (controller) {
       case PaddleOptions.keyboard:
-        player = new KeyboardPaddle(xPosition, height, keyUp, keyDown);
+        paddle = new KeyboardPaddle(xPosition, height, keyUp, keyDown);
         break;
 
       case PaddleOptions.mouse:
-        player = new MousePaddle(xPosition, height, null, null);
+        paddle = new MousePaddle(xPosition, height, null, null);
         break;
 
       case PaddleOptions.touchpad:
-        player = new TouchpadPaddle(xPosition, height, null, null);
+        paddle = new TouchpadPaddle(xPosition, height, null, null);
         break;
 
       default:
-        player = new ComputerPaddle(xPosition, height, null, null);
+        paddle = new ComputerPaddle(xPosition, height, null, null);
         break;
     }
 
-    return player;
+    return paddle;
   }
 }

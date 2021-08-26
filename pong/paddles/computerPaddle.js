@@ -1,4 +1,4 @@
-// Class to draw and move computer paddle on the playfield.
+// Class to draw and move paddle automatically by the computer.
 class ComputerPaddle extends KeyboardPaddle {
   constructor(xPosition, height = 75, keyUp = null, keyDown = null) {
     super(xPosition, height, keyUp, keyDown);
