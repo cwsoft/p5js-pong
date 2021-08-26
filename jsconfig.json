@@ -4,11 +4,11 @@
     "libraries/*.js",
     "c:\\Users\\csommer\\.vscode\\extensions\\samplavigne.p5-vscode-1.2.6\\p5types\\global.d.ts",
     "pong/pong.js",
+    "pong/ball.js",
     "pong/paddleController.js",
     "pong/paddles/keyboardPaddle.js",
     "pong/paddles/computerPaddle.js",
     "pong/paddles/mousePaddle.js",
-    "pong/paddles/touchpadPaddle.js",
-    "pong/ball.js"
+    "pong/paddles/touchpadPaddle.js"
   ]
 }
