@@ -50,26 +50,18 @@ class PaddleController {
   // ---------------------------------------------------------------------------------------
   // Create paddle objects reflecting given controller settings.
   _paddleFactory(controller, xPosition, height, keyUp = UP_ARROW, keyDown = DOWN_ARROW) {
-    let paddle;
-
     switch (controller) {
       case PaddleOptions.keyboard:
-        paddle = new KeyboardPaddle(xPosition, height, keyUp, keyDown);
-        break;
+        return new KeyboardPaddle(xPosition, height, keyUp, keyDown);
 
       case PaddleOptions.mouse:
-        paddle = new MousePaddle(xPosition, height, null, null);
-        break;
+        return new MousePaddle(xPosition, height, null, null);
 
       case PaddleOptions.touchpad:
-        paddle = new TouchpadPaddle(xPosition, height, null, null);
-        break;
+        return new TouchpadPaddle(xPosition, height, null, null);
 
       default:
-        paddle = new ComputerPaddle(xPosition, height, null, null);
-        break;
+        return new ComputerPaddle(xPosition, height, null, null);
     }
-
-    return paddle;
   }
 }
