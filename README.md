@@ -28,6 +28,9 @@ Thanks to Github Pages, you can try out different Pong variations in your browse
 
 There is only limited support for ONE human player using a touch devices like an iPad.
 
+## License
+p5js-Pong is released under MIT License. The unmodified p5js files located in libraries are licensed under GNU GPL.
+
 ## Contribution
 
 As this was my very first trial with the p5js library, game layout could be improved in a lot of areas. If you want to get your hands on, just download the files and change them to your needs. Possible improvements could be code clean-up and refactoring (e.g. get rid of public fields and properties, add Typescript support, add collision detection to the individual objects, add new features like multiple balls or add magic items to allow to change the ball speed or manipulate it´s velocity vector by gravity or wind forces etc.
