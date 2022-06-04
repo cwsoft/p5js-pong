@@ -24,8 +24,8 @@ class Pong {
   // Start new pong round.
   newRound() {
     // Recreate game objects to force defined start values for new round.
-    leftPaddle = controller.createLeftPaddle();
-    rightPaddle = controller.createRightPaddle();
+    leftPaddle = controller.createLeftPaddle(leftPaddle.xPosition, leftPaddle.height);
+    rightPaddle = controller.createRightPaddle(rightPaddle.xPosition, rightPaddle.height);
     ball = new Ball();
 
     // Initialize internal game state for new round.
