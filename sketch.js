@@ -1,8 +1,9 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Global game objects.
+// Global configs and game objects.
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+const paddleHeight = 75;
 const canvasContainer = document.getElementById("canvas-container");
-let pong, sound, ball, controller, leftPaddle, rightPaddle;
+let pong, sound, ball, paddleFactory, leftPaddle, rightPaddle;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Global p5js event handler callbacks.
@@ -28,9 +29,9 @@ function setup() {
   // Initialize global game objects.
   pong = new Pong();
   ball = new Ball();
-  controller = new PaddleController();
-  leftPaddle = controller.createLeftPaddle();
-  rightPaddle = controller.createRightPaddle();
+  paddleFactory = new PaddleFactory();
+  leftPaddle = paddleFactory.createLeftPaddle(paddleHeight);
+  rightPaddle = paddleFactory.createRightPaddle(paddleHeight);
 }
 
 // Update game state every frame.

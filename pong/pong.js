@@ -24,8 +24,8 @@ class Pong {
   // Start new pong round.
   newRound() {
     // Recreate game objects to force defined start values for new round.
-    leftPaddle = controller.createLeftPaddle(leftPaddle.xPosition, leftPaddle.height);
-    rightPaddle = controller.createRightPaddle(rightPaddle.xPosition, rightPaddle.height);
+    leftPaddle = paddleFactory.createLeftPaddle(leftPaddle.height);
+    rightPaddle = paddleFactory.createRightPaddle(rightPaddle.height);
     ball = new Ball();
 
     // Initialize internal game state for new round.
@@ -135,23 +135,23 @@ class Pong {
   // Refresh usage message.
   _refreshUsageMessage() {
     // Work out if players are human or computer.
-    let player1 = controller.left == PaddleOptions.computer ? "Left 💻" : "Left 👤:";
-    let player2 = controller.right == PaddleOptions.computer ? "Right 💻" : "Right 👤:";
+    let player1 = paddleFactory.leftType == PaddleType.computer ? "Left 💻" : "Left 👤:";
+    let player2 = paddleFactory.rightType == PaddleType.computer ? "Right 💻" : "Right 👤:";
 
     // Work out controller settings used for left and right player.
-    let controller1 = controller.left == PaddleOptions.mouse ? "Mouse" : "[⬆], [⬇]";
-    controller1 = controller.left == PaddleOptions.computer ? "" : controller1;
+    let leftType = paddleFactory.leftType == PaddleType.mouse ? "Mouse" : "[⬆], [⬇]";
+    leftType = paddleFactory.leftType == PaddleType.computer ? "" : leftType;
 
-    let controller2 =
-      controller.right == PaddleOptions.mouse
+    let rightType =
+      paddleFactory.rightType == PaddleType.mouse
         ? "Mouse"
-        : controller.left == PaddleOptions.computer || controller.left == PaddleOptions.mouse
+        : paddleFactory.leftType == PaddleType.computer || paddleFactory.leftType == PaddleType.mouse
         ? "[⬆], [⬇]"
         : "[q]:Up, [a]:Down";
-    controller2 = controller.right == PaddleOptions.computer ? "" : controller2;
+    rightType = paddleFactory.rightType == PaddleType.computer ? "" : rightType;
 
     // Build usage message.
-    let usageMessage = `${player1} ${controller1}, ${player2} ${controller2}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
+    let usageMessage = `${player1} ${leftType}, ${player2} ${rightType}, ▶ [SPACE], ⏯: [P], ⏭: [F5] – (c) 2021 http://cwsoft.de`;
 
     // Update usage message.
     fill(0);
